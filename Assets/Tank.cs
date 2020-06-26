@@ -6,9 +6,35 @@ public class Tank : MonoBehaviour
 {
     // where the camera looks at the tank from
     public GameObject cameraPosition;
+    public LevelController.playerType ptype; // P1 or P2
     public int health;
     // angle of the arm
     public float angle;
+    private bool isTurnOver;
+
+    // called when the tank has no health
+    void Die()
+    {
+        switch(ptype)
+        {
+            case LevelController.playerType.P1:
+                LevelController.Instance.GameOver(LevelController.winCondition.P2_WIN);
+                break;
+            case LevelController.playerType.P2:
+                LevelController.Instance.GameOver(LevelController.winCondition.P1_WIN);
+                break;
+        }
+
+    }
+
+    // subtract health from the tank.
+    void Damage(int amt)
+    {
+        health -= amt;
+        if (health <= 0)
+            Die();
+    }
+
 
     // changes the angle of the arm by "amt" degrees
     void ChangeAngle(float amt)
@@ -37,13 +63,17 @@ public class Tank : MonoBehaviour
     Moving or shooting will use up your turn
     Changing the angle does NOT count as a use of your turn
     */
-    void BeginTurn()
+    void StartTurn()
     {
+        // move the main camera to the tank's camera view location
 
+        // dispay the turn UI
+
+        //
     }
 
     void EndTurn()
     {
-        
+        // remove UI
     }
 }
