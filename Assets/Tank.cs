@@ -67,13 +67,14 @@ public class Tank : MonoBehaviour
     {
         isActiveMoveSequence = true;
         Debug.Log("being Do Move");
-        Vector3 cameraPosOld = currCam.transform.position;
+        Transform camTransOld = currCam.transform;
         // display the move cancel button
 
         // move camera to the far away location
         LevelController.CameraMoveParams camParamsFar = new LevelController.CameraMoveParams();
-        camParamsFar.speed = 80;
+        camParamsFar.speed = 50;
         camParamsFar.destination = farPos.transform.position;
+        camParamsFar.rotation = farPos.transform.rotation;
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsFar);
 
         /* wait for user to input desired location
@@ -119,8 +120,10 @@ public class Tank : MonoBehaviour
 
         // move the camera back
         LevelController.CameraMoveParams camParamsReturn = new LevelController.CameraMoveParams();
-        camParamsReturn.speed = 80;
-        camParamsReturn.destination = cameraPosOld;
+        camParamsReturn.speed = 50;
+        camParamsReturn.destination = camTransOld.position;
+        camParamsReturn.rotation = camTransOld.rotation; 
+
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsReturn);
         isActiveMoveSequence = false;
         yield break;
@@ -164,9 +167,8 @@ public class Tank : MonoBehaviour
         while (fracComplete < 1)
         {
             // lerp between the positions
-            transform.position = Vector3.Lerp(startPos, pos, fracComplete);
             fracComplete = ((Time.time - start) * tankMoveSpeed) / Vector3.Distance(startPos, pos);
-            gameObject.transform.position = Vector3.Lerp(startPos, pos, fracComplete);
+            gameObject.transform.position = Vector3.Slerp(startPos, pos, fracComplete);
             yield return null;
         }
         isMoving = false;
@@ -202,8 +204,9 @@ public class Tank : MonoBehaviour
         float cameraMoveSpeed = 1;
 
         LevelController.CameraMoveParams camParams = new LevelController.CameraMoveParams();
-        camParams.speed = 80;
+        camParams.speed = 50;
         camParams.destination = closePos.transform.position;
+        camParams.rotation = closePos.transform.rotation;
         LevelController.Instance.StartCoroutine("MoveCamera", camParams);
 
         // dispay the turn UI

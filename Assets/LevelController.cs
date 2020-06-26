@@ -72,6 +72,7 @@ public class LevelController : Singleton<LevelController>
     {
         public float speed;
         public Vector3 destination;
+        public Quaternion rotation;
     };
     /* Smoothly moves the camera to a new point
     
@@ -87,13 +88,14 @@ public class LevelController : Singleton<LevelController>
             Debug.Log(Camera.main);
         } 
         Vector3 startPos = camera.transform.position;
+        Quaternion startRot = camera.transform.rotation;
         float fracComplete = 0;
         while (fracComplete < 1)
         {
             // slerp between the positions
-            transform.position = Vector3.Lerp(startPos, camParams.destination, fracComplete);
             fracComplete = ((Time.time - start) * camParams.speed) / Vector3.Distance(startPos, camParams.destination);
-            camera.transform.position = Vector3.Lerp(startPos, camParams.destination, fracComplete);
+            camera.transform.position = Vector3.Slerp(startPos, camParams.destination, fracComplete);
+            camera.transform.rotation = Quaternion.Slerp(startRot, camParams.rotation, fracComplete);
             yield return null;
         }
         Debug.Log("exit moveCamera");
