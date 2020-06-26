@@ -56,7 +56,32 @@ public class LevelController : Singleton<LevelController>
                 Debug.Log("Player 2 has won!");
                 break;
         }
-        
+
         // display the win scene
+    }
+
+
+
+    public class CameraMoveParams
+    {
+        public float speed;
+        public Vector3 destination;
+    };
+    /* Smoothly moves the camera to a new point
+    
+    Referenced Unity's documentation on Vector3.Slerp
+    https://docs.unity3d.com/ScriptReference/Vector3.Slerp.html
+     */
+    public IEnumerator MoveCamera(CameraMoveParams camParams)
+    {
+        float start = Time.time;
+        float fracComplete = 0;
+        while (fracComplete < 1)
+        {
+            // slerp between the positions
+            fracComplete = (Time.time - start / start);
+            yield return null;
+        }
+
     }
 }
