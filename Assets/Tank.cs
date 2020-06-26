@@ -16,6 +16,7 @@ public class Tank : MonoBehaviour
     public float moveRange;
     private bool cancelMove;
     private bool isMoving;
+    private bool isActiveMoveSequence;
     private GameObject currCam;
     [SerializeField]
     private float tankHeight;
@@ -24,6 +25,7 @@ public class Tank : MonoBehaviour
     {
         currCam = Camera.main.gameObject;
         cancelMove = false;
+        isActiveMoveSequence = false;
     }
     // called when the tank has no health
     void Die()
@@ -50,7 +52,11 @@ public class Tank : MonoBehaviour
 
     public void DoMoveWrapper()
     {
-        StartCoroutine("DoMove");
+        if (!isActiveMoveSequence)
+        {
+            Debug.Log("begin DoMove coroutine");
+            StartCoroutine("DoMove");
+        }
     }
 
     /* The "Do" methods are the ones that get called when we click on 
@@ -59,14 +65,15 @@ public class Tank : MonoBehaviour
 
     IEnumerator DoMove()
     {
+        isActiveMoveSequence = true;
         Debug.Log("being Do Move");
         Vector3 cameraPosOld = currCam.transform.position;
         // display the move cancel button
 
         // move camera to the far away location
         LevelController.CameraMoveParams camParamsFar = new LevelController.CameraMoveParams();
-        camParamsFar.speed = 1;
-        camParamsFar.destination = closePos.transform.position;
+        camParamsFar.speed = 80;
+        camParamsFar.destination = farPos.transform.position;
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsFar);
 
         /* wait for user to input desired location
@@ -112,9 +119,11 @@ public class Tank : MonoBehaviour
 
         // move the camera back
         LevelController.CameraMoveParams camParamsReturn = new LevelController.CameraMoveParams();
-        camParamsReturn.speed = 1;
+        camParamsReturn.speed = 80;
         camParamsReturn.destination = cameraPosOld;
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsReturn);
+        isActiveMoveSequence = false;
+        yield break;
     }
 
     void CancelMove()
@@ -157,7 +166,6 @@ public class Tank : MonoBehaviour
             // lerp between the positions
             transform.position = Vector3.Lerp(startPos, pos, fracComplete);
             fracComplete = ((Time.time - start) * tankMoveSpeed) / Vector3.Distance(startPos, pos);
-            Debug.Log(fracComplete);
             gameObject.transform.position = Vector3.Lerp(startPos, pos, fracComplete);
             yield return null;
         }
@@ -188,13 +196,13 @@ public class Tank : MonoBehaviour
     Moving or shooting will use up your turn
     Changing the angle does NOT count as a use of your turn
     */
-    void StartTurn()
+    public void StartTurn()
     {
         // move the main camera to the tank's camera view location
         float cameraMoveSpeed = 1;
 
         LevelController.CameraMoveParams camParams = new LevelController.CameraMoveParams();
-        camParams.speed = 1;
+        camParams.speed = 80;
         camParams.destination = closePos.transform.position;
         LevelController.Instance.StartCoroutine("MoveCamera", camParams);
 

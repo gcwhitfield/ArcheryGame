@@ -29,6 +29,11 @@ public class LevelController : Singleton<LevelController>
         camera = Camera.main.gameObject;
     }
 
+    void Start()
+    {
+        BeginTurn(playerType.P1);
+    }
+
     /* called at the start of every player's turn. This function is called by 
         Tank.cs
     */
@@ -37,7 +42,7 @@ public class LevelController : Singleton<LevelController>
         switch(player)
         {
             case playerType.P1:
-
+                P1.GetComponent<Tank>().StartTurn();
                 break;
             case playerType.P2:
                 break;  
@@ -80,19 +85,18 @@ public class LevelController : Singleton<LevelController>
         {
             Debug.Log("CAMERA IS NULL");
             Debug.Log(Camera.main);
-        } else {
-            Vector3 startPos = camera.transform.position;
-            float fracComplete = 0;
-            float speed = 8;
-            while (fracComplete < 1)
-            {
-                // slerp between the positions
-                fracComplete = ((Time.time - start / start) * speed) / Vector3.Distance(startPos, camParams.destination);
-                camera.transform.position = Vector3.Slerp(startPos, camParams.destination, fracComplete);
-
-                yield return null;
-            }
+        } 
+        Vector3 startPos = camera.transform.position;
+        float fracComplete = 0;
+        while (fracComplete < 1)
+        {
+            // slerp between the positions
+            transform.position = Vector3.Lerp(startPos, camParams.destination, fracComplete);
+            fracComplete = ((Time.time - start) * camParams.speed) / Vector3.Distance(startPos, camParams.destination);
+            camera.transform.position = Vector3.Lerp(startPos, camParams.destination, fracComplete);
+            yield return null;
         }
-
+        Debug.Log("exit moveCamera");
+        yield break;
     }
 }
