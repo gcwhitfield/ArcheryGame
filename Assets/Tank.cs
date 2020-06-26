@@ -67,7 +67,6 @@ public class Tank : MonoBehaviour
     {
         isActiveMoveSequence = true;
         Debug.Log("being Do Move");
-        Transform camTransOld = currCam.transform;
         // display the move cancel button
 
         // move camera to the far away location
@@ -121,8 +120,8 @@ public class Tank : MonoBehaviour
         // move the camera back
         LevelController.CameraMoveParams camParamsReturn = new LevelController.CameraMoveParams();
         camParamsReturn.speed = 50;
-        camParamsReturn.destination = camTransOld.position;
-        camParamsReturn.rotation = camTransOld.rotation; 
+        camParamsReturn.destination = closePos.position;
+        camParamsReturn.rotation = closePos.rotation; 
 
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsReturn);
         isActiveMoveSequence = false;
