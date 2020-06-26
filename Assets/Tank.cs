@@ -15,6 +15,7 @@ public class Tank : MonoBehaviour
     public float angle;
     public float moveRange;
     private bool cancelMove;
+    private bool isMoving;
     private GameObject currCam;
     [SerializeField]
     private float tankHeight;
@@ -47,12 +48,18 @@ public class Tank : MonoBehaviour
             Die();
     }
 
+    public void DoMoveWrapper()
+    {
+        StartCoroutine("DoMove");
+    }
+
     /* The "Do" methods are the ones that get called when we click on 
     a button on the UI. For example, when the user clicks on the "move" button,
     the "DoMove" method gets called */
 
     IEnumerator DoMove()
     {
+        Debug.Log("being Do Move");
         Vector3 cameraPosOld = currCam.transform.position;
         // display the move cancel button
 
@@ -63,12 +70,12 @@ public class Tank : MonoBehaviour
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsFar);
 
         /* wait for user to input desired location
-        
            user can cancel move by calling CancelMove fuction while this 
            loop is running
         */
         Ray ray;
         RaycastHit hit;
+        Debug.Log("raycast part");
         while (true)
         {
             ray = currCam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
@@ -80,7 +87,9 @@ public class Tank : MonoBehaviour
                     // if the click is valid move location
                     if (Vector3.Distance(gameObject.transform.position, hit.point) <= moveRange)
                     {
-                        Move(hit.point);
+                        Debug.Log("valid move location. moving...");
+                        // move the tank to the location
+                        StartCoroutine("Move", hit.point + new Vector3(0, tankHeight, 0));
                         break;
                     }
                 } else {
@@ -94,12 +103,12 @@ public class Tank : MonoBehaviour
             }
             yield return null;
         }
-
-        Debug.Log("Moving tank to the location");
-        // move the tank to the location
-        Move(hit.point + new Vector3(0, tankHeight, 0));
-
+        
         // wait for the tank to move
+        while (isMoving)
+            yield return null;
+
+        Debug.Log("finish moving");
 
         // move the camera back
         LevelController.CameraMoveParams camParamsReturn = new LevelController.CameraMoveParams();
@@ -136,19 +145,23 @@ public class Tank : MonoBehaviour
 
     protected Vector3 moveTo;
     // moves the tank to the given position
-    IEnumerable Move(Vector3 pos)
+    IEnumerator Move(Vector3 pos)
     {
         Debug.Log("Moving the player to " + pos.ToString());
         float start = Time.time;
         float fracComplete = 0;
         Vector3 startPos = transform.position;
+        gameObject.transform.LookAt(pos);
         while (fracComplete < 1)
         {
             // lerp between the positions
             transform.position = Vector3.Lerp(startPos, pos, fracComplete);
-            fracComplete = (Time.time - start / start) * tankMoveSpeed;
+            fracComplete = ((Time.time - start) * tankMoveSpeed) / Vector3.Distance(startPos, pos);
+            Debug.Log(fracComplete);
+            gameObject.transform.position = Vector3.Lerp(startPos, pos, fracComplete);
             yield return null;
         }
+        isMoving = false;
         yield return null;
     }
 
