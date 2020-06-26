@@ -9,16 +9,20 @@ public class Tank : MonoBehaviour
     public Transform farPos;
     public LevelController.playerType ptype; // P1 or P2
     public GameObject tankUI;
-    public GameObject currCam;
+    public float tankMoveSpeed;
     public int health;
     // angle of the arm
     public float angle;
     public float moveRange;
-    private bool isTurnOver;
+    private bool cancelMove;
+    private GameObject currCam;
+    [SerializeField]
+    private float tankHeight;
 
     void Start()
     {
         currCam = Camera.main.gameObject;
+        cancelMove = false;
     }
     // called when the tank has no health
     void Die()
@@ -47,7 +51,7 @@ public class Tank : MonoBehaviour
     a button on the UI. For example, when the user clicks on the "move" button,
     the "DoMove" method gets called */
 
-    void DoMove()
+    IEnumerator DoMove()
     {
         Vector3 cameraPosOld = currCam.transform.position;
         // display the move cancel button
@@ -58,11 +62,42 @@ public class Tank : MonoBehaviour
         camParamsFar.destination = closePos.transform.position;
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsFar);
 
-        // move the camera to far position
+        /* wait for user to input desired location
+        
+           user can cancel move by calling CancelMove fuction while this 
+           loop is running
+        */
+        Ray ray;
+        RaycastHit hit;
+        while (true)
+        {
+            ray = currCam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+            Debug.DrawRay(ray.origin, ray.direction * 122, Color.yellow);
+            if (Physics.Raycast(ray.origin, ray.direction, out hit, 100))
+            {
+                if (Input.GetMouseButtonDown(0)) // left click
+                {
+                    // if the click is valid move location
+                    if (Vector3.Distance(gameObject.transform.position, hit.point) <= moveRange)
+                    {
+                        Move(hit.point);
+                        break;
+                    }
+                } else {
+                    Debug.DrawLine(ray.origin, hit.point);
+                }
+            }
+            if (cancelMove)
+            {
+                cancelMove = false;
+                yield break;
+            }
+            yield return null;
+        }
 
-        // wait for user to input desired location
-
+        Debug.Log("Moving tank to the location");
         // move the tank to the location
+        Move(hit.point + new Vector3(0, tankHeight, 0));
 
         // wait for the tank to move
 
@@ -71,7 +106,11 @@ public class Tank : MonoBehaviour
         camParamsReturn.speed = 1;
         camParamsReturn.destination = cameraPosOld;
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsReturn);
+    }
 
+    void CancelMove()
+    {
+        cancelMove = true;
     }
 
     void DoAngle()
@@ -97,8 +136,20 @@ public class Tank : MonoBehaviour
 
     protected Vector3 moveTo;
     // moves the tank to the given position
-    void Move(Vector3 pos)
+    IEnumerable Move(Vector3 pos)
     {
+        Debug.Log("Moving the player to " + pos.ToString());
+        float start = Time.time;
+        float fracComplete = 0;
+        Vector3 startPos = transform.position;
+        while (fracComplete < 1)
+        {
+            // lerp between the positions
+            transform.position = Vector3.Lerp(startPos, pos, fracComplete);
+            fracComplete = (Time.time - start / start) * tankMoveSpeed;
+            yield return null;
+        }
+        yield return null;
     }
 
     /* 
