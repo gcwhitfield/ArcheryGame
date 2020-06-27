@@ -11,8 +11,10 @@ public class LevelController : Singleton<LevelController>
     public playerType currentTurn;
     // varaible will be accessed by WinScene to display the winner
     public winCondition currWinState = winCondition.NONE;
+    [Header("Camera")]
     public GameObject cam;
     public bool camIsMoving;
+    public float waitTimeInBetweenTurnSwitch;
     public enum playerType
     {
         P1,
@@ -75,10 +77,16 @@ public class LevelController : Singleton<LevelController>
     /* End P1's turn and begin P2's turn (or vice versa) */
     public void SwitchTurn()
     {
+        StartCoroutine("_SwitchTurn");
+    }
+
+    IEnumerator _SwitchTurn()
+    {
+        yield return new WaitForSeconds(waitTimeInBetweenTurnSwitch);
         switch(currentTurn)
         {
             case playerType.P1:
-            Debug.Log("Switching turn from P1 to P2");
+                Debug.Log("Switching turn from P1 to P2");
                 BeginTurn(playerType.P2);
                 break;
             case playerType.P2:
@@ -86,6 +94,7 @@ public class LevelController : Singleton<LevelController>
                 BeginTurn(playerType.P1);
                 break;
         }
+        yield break;
     }
 
     public class CameraMoveParams

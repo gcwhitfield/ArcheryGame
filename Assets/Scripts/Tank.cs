@@ -38,7 +38,7 @@ public class Tank : MonoBehaviour
     public float pitch;
     public float yaw;
     public float moveRange;
-    public float shootPower;
+    public float power;
     private bool _cancelMove;
     public GameObject bomb;
 
@@ -103,14 +103,14 @@ public class Tank : MonoBehaviour
 
         // for moving camera to the far away location
         LevelController.CameraMoveParams camParamsFar = new LevelController.CameraMoveParams();
-        camParamsFar.speed = 50;
+        camParamsFar.speed = 160;
         camParamsFar.destination = farPos.transform.position;
         camParamsFar.rotation = farPos.transform.rotation;
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsFar);
 
         // for moving the camera back
         LevelController.CameraMoveParams camParamsReturn = new LevelController.CameraMoveParams();
-        camParamsReturn.speed = 50;
+        camParamsReturn.speed = 160;
         camParamsReturn.destination = closePos.position;
         camParamsReturn.rotation = closePos.rotation; 
 
@@ -169,9 +169,9 @@ public class Tank : MonoBehaviour
     }
 
     /* SetPower called from power slider in UI */
-    public void SetPower()
+    public void SetPower(float newPower)
     {
-
+        power = newPower;
     }
 
     /* Called from the "Fire" button on the UI */
@@ -183,8 +183,8 @@ public class Tank : MonoBehaviour
 
         // add appropriate force proportional to power
         Vector3 direction = (projectileInstantiationPosition.transform.position - nozzle.transform.position).normalized;
-        float _shootPower = 2;
-        proj.GetComponent<Rigidbody>().AddForce(direction * _shootPower * shootPower, ForceMode.Impulse);
+        float _power = 2;
+        proj.GetComponent<Rigidbody>().AddForce(direction * _power * power, ForceMode.Impulse);
 
         // play the sound
         AudioManager.Instance.PlaySoundEffect(shootSound);
@@ -245,7 +245,7 @@ public class Tank : MonoBehaviour
         float cameraMoveSpeed = 1;
 
         LevelController.CameraMoveParams camParams = new LevelController.CameraMoveParams();
-        camParams.speed = 50;
+        camParams.speed = 160;
         camParams.destination = closePos.transform.position;
         camParams.rotation = closePos.transform.rotation;
         LevelController.Instance.StartCoroutine("MoveCamera", camParams);

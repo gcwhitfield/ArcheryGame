@@ -2315,7 +2315,7 @@ MonoBehaviour:
   pitch: 0
   yaw: 0
   moveRange: 7.29
-  shootPower: 8.18
+  power: 0
   bomb: {fileID: 3572828311061484131, guid: 04d3fc8a8d5b94e468cf3f9f1c56fa69, type: 3}
   shootSound: {fileID: 0}
   bomSound: {fileID: 0}
@@ -2510,6 +2510,26 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8268513078096115593, guid: e214cdd2c772b4e63a1843010fb49902,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268513078149051911, guid: e214cdd2c772b4e63a1843010fb49902,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268513078816659290, guid: e214cdd2c772b4e63a1843010fb49902,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 820074825983975051}
+    - target: {fileID: 8268513078816659290, guid: e214cdd2c772b4e63a1843010fb49902,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetPower
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e214cdd2c772b4e63a1843010fb49902, type: 3}
 --- !u!224 &8366189101131428163 stripped
@@ -2645,6 +2665,16 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: ChangePitch
       objectReference: {fileID: 0}
+    - target: {fileID: 1408249206494627171, guid: ac0ff1e7f0e604833a21ccdeac4f3b66,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1408249206547629293, guid: ac0ff1e7f0e604833a21ccdeac4f3b66,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac0ff1e7f0e604833a21ccdeac4f3b66, type: 3}
 --- !u!224 &134531504687179965 stripped
@@ -2779,6 +2809,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: ChangeYaw
+      objectReference: {fileID: 0}
+    - target: {fileID: 8236002740687015238, guid: 81463fbf0f26042e7ab004e51fb07751,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8236002740638239944, guid: 81463fbf0f26042e7ab004e51fb07751,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81463fbf0f26042e7ab004e51fb07751, type: 3}

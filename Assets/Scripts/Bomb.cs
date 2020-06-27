@@ -14,7 +14,8 @@ public class Bomb : MonoBehaviour
     public int damageAmt;
 
     [Header("Camera follow")]
-    public float delay;
+    [Range(0f, 1f)]
+    public float cameraFollowDelay;
     public int followSpeed;
     public float offsetX;
     public float offsetY;
@@ -34,7 +35,6 @@ public class Bomb : MonoBehaviour
     void Start()
     {
         _cam = Camera.main;
-        StartCoroutine("CameraFollow");
     }
 
     /* Play explode efect, apply force to nearby tanks, end turn */
@@ -71,19 +71,19 @@ public class Bomb : MonoBehaviour
         yield break;
     }
 
-
+    void FixedUpdate()
+    {
+        CameraFollow();
+    }
 
     /* Camera follow */
-    IEnumerator CameraFollow()
+    void CameraFollow()
     {
         if (_cam == null) _cam = Camera.main;
-        while (true) // run until object destroyed
-        {
-            Vector3 desiredPosition = gameObject.transform.position + new Vector3(offsetX, offsetY, offsetZ);
-            _cam.transform.LookAt(gameObject.transform);
-            _cam.transform.position = Vector3.Slerp(_cam.transform.position, desiredPosition, delay);
-            yield return null;
-        }
+
+        Vector3 desiredPosition = gameObject.transform.position + new Vector3(offsetX, offsetY, offsetZ);
+        _cam.transform.LookAt(gameObject.transform);
+        _cam.transform.position = Vector3.Slerp(_cam.transform.position, desiredPosition, cameraFollowDelay);
     }
 
 }

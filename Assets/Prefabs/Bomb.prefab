@@ -128,7 +128,7 @@ MonoBehaviour:
   explodeRadius: 11.67
   explodeStrength: 14.46
   damageAmt: 10
-  delay: 0.3
+  cameraFollowDelay: 0.276
   followSpeed: 0
   offsetX: 0
   offsetY: 11.23
