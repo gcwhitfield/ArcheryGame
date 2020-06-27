@@ -218,14 +218,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 237240095}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: 4d4d6ece956914363945600f8c670cdb, type: 2}
-  isGlobal: 1
+  isGlobal: 0
+  priority: 0
   blendDistance: 0
   weight: 1
-  priority: 0
+  sharedProfile: {fileID: 11400000, guid: 8a6eef46c99874bc6a4a26a226f3780e, type: 2}
 --- !u!4 &237240097
 Transform:
   m_ObjectHideFlags: 0
