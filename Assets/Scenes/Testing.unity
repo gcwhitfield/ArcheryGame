@@ -515,7 +515,7 @@ PrefabInstance:
     - target: {fileID: 158784129521549653, guid: 73882de6b1b824049a47589aa1ade06c,
         type: 3}
       propertyPath: m_Name
-      value: Tank
+      value: P1
       objectReference: {fileID: 0}
     - target: {fileID: 855642633291036335, guid: 73882de6b1b824049a47589aa1ade06c,
         type: 3}
@@ -609,7 +609,7 @@ PrefabInstance:
     - target: {fileID: 158784129521549653, guid: 73882de6b1b824049a47589aa1ade06c,
         type: 3}
       propertyPath: m_Name
-      value: Tank (1)
+      value: P2
       objectReference: {fileID: 0}
     - target: {fileID: 855642633291036335, guid: 73882de6b1b824049a47589aa1ade06c,
         type: 3}
@@ -693,11 +693,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73882de6b1b824049a47589aa1ade06c, type: 3}
+--- !u!1 &1511288794 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 158784129521549653, guid: 73882de6b1b824049a47589aa1ade06c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1383565142}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1511288795 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 855642633291036335, guid: 73882de6b1b824049a47589aa1ade06c,
     type: 3}
   m_PrefabInstance: {fileID: 1383565142}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1557169796 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 158784129521549653, guid: 73882de6b1b824049a47589aa1ade06c,
+    type: 3}
+  m_PrefabInstance: {fileID: 682388855}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1788847959
 GameObject:
@@ -1024,8 +1036,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bca2b3cf9e14ef4aee8d89a507a23e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  P1: {fileID: 0}
-  P2: {fileID: 0}
+  P1: {fileID: 1557169796}
+  P2: {fileID: 1511288794}
   currWinState: 3
   camera: {fileID: 0}
 --- !u!4 &2040827688

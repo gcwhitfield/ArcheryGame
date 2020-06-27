@@ -5,11 +5,22 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
+    [Header("Explosion")]
     public AudioClip explodeSound;
     public GameObject explodeEffect;
     public float explodeRadius;
     public float explodeStrength;
     public int damageAmt;
+
+    [Header("Camera follow")]
+    public float delay;
+    public int followSpeed;
+    public float offsetX;
+    public float offsetY;
+    public float offsetZ;
+    private Camera cam;
+    
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Tank" || other.gameObject.isStatic)
@@ -21,7 +32,8 @@ public class Bomb : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-    
+        cam = Camera.main;
+        StartCoroutine("CameraFollow");
     }
 
     IEnumerator Explode()
@@ -51,4 +63,21 @@ public class Bomb : MonoBehaviour
         Destroy(gameObject);
         yield break;
     }
+
+
+
+    /* Camera follow */
+    IEnumerator CameraFollow()
+    {
+        Debug.Log("CameraFollow");
+        if (cam == null) cam = Camera.main;
+        while (true) // run until object destroyed
+        {
+            Vector3 desiredPosition = gameObject.transform.position. + new Vector3(offsetX, offsetY, offsetZ);
+            cam.transform.LookAt(gameObject.transform);
+            cam.transform.position = Vector3.Slerp(cam.transform.position, desiredPosition, delay);
+            yield return null;
+        }
+    }
+
 }

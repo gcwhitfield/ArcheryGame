@@ -74,7 +74,6 @@ public class Tank : MonoBehaviour
     {
         if (!isActiveMoveSequence)
         {
-            Debug.Log("begin DoMove coroutine");
             StartCoroutine("DoMove");
         }
     }
@@ -86,7 +85,6 @@ public class Tank : MonoBehaviour
     IEnumerator DoMove()
     {
         isActiveMoveSequence = true;
-        Debug.Log("being Do Move");
         // display the move cancel button
 
         // for moving camera to the far away location
@@ -108,7 +106,6 @@ public class Tank : MonoBehaviour
         */
         Ray ray;
         RaycastHit hit;
-        Debug.Log("raycast part");
         while (true)
         {
             ray = currCam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
@@ -120,7 +117,6 @@ public class Tank : MonoBehaviour
                     // if the click is valid move location
                     if (Vector3.Distance(gameObject.transform.position, hit.point) <= moveRange)
                     {
-                        Debug.Log("valid move location. moving...");
                         // move the tank to the location
                         StartCoroutine("Move", hit.point + new Vector3(0, tankHeight, 0));
                         // wait for the tank to move
@@ -140,7 +136,6 @@ public class Tank : MonoBehaviour
         }
         cancelButton.SetActive(false);
         moveButton.SetActive(true);
-        Debug.Log("finish moving");
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsReturn);
         isActiveMoveSequence = false;
         yield break;
@@ -167,8 +162,6 @@ public class Tank : MonoBehaviour
         // add appropriate force proportional to power
         Vector3 direction = (projectileInstantiationPosition.transform.position - nozzle.transform.position).normalized;
         float _shootPower = 2;
-        Debug.Log("shoot force:" +  direction * _shootPower * shootPower);
-        Debug.Log("direction: " + direction);
         proj.GetComponent<Rigidbody>().AddForce(direction * _shootPower * shootPower, ForceMode.Impulse);
 
         // play the sound
@@ -189,7 +182,6 @@ public class Tank : MonoBehaviour
     // moves the tank to the given position
     IEnumerator Move(Vector3 pos)
     {
-        Debug.Log("Moving the player to " + pos.ToString());
         float start = Time.time;
         float fracComplete = 0;
         Vector3 startPos = transform.position;

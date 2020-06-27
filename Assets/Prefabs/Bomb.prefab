@@ -127,3 +127,8 @@ MonoBehaviour:
   explodeRadius: 11.67
   explodeStrength: 14.46
   damageAmt: 0
+  delay: 0.3
+  followSpeed: 0
+  offsetX: 0
+  offsetY: 11.23
+  offsetZ: 16.35
