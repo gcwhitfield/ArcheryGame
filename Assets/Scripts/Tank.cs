@@ -220,7 +220,7 @@ public class Tank : MonoBehaviour
 
         // add appropriate force proportional to power
         Vector3 direction = (projectileInstantiationPosition.transform.position - nozzle.transform.position).normalized;
-        float _power = 0.2f;
+        float _power = 0.6f;
         proj.GetComponent<Rigidbody>().AddForce(direction * _power * power, ForceMode.Impulse);
 
         // play the sound
@@ -277,7 +277,7 @@ public class Tank : MonoBehaviour
         {
             // lerp between the positions
             fracComplete = ((Time.time - start) * tankMoveSpeed) / Vector3.Distance(startPos, pos);
-            gameObject.transform.position = Vector3.Slerp(startPos, pos, fracComplete);
+            gameObject.transform.position = Vector3.Lerp(startPos, pos, fracComplete);
             yield return null;
         }
         _isMoving = false;
