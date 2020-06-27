@@ -2527,7 +2527,7 @@ MonoBehaviour:
   tankMoveSpeed: 4.19
   pitch: 0
   yaw: 0
-  moveRange: 7.29
+  moveRange: 15
   power: 50
   bomb: {fileID: 3572828311061484131, guid: 04d3fc8a8d5b94e468cf3f9f1c56fa69, type: 3}
   circleLR: {fileID: 8293209711981838040}

@@ -125,6 +125,7 @@ public class Tank : MonoBehaviour
                     {
                         // move the tank to the location
                         StartCoroutine("Move", hit.point + new Vector3(0, _tankHeight, 0));
+                        HideMovementCircle();
                         // wait for the tank to move
                         while (_isMoving)
                             yield return null;
@@ -137,12 +138,13 @@ public class Tank : MonoBehaviour
             if (_cancelMove)
             {
                 Debug.Log("cancel move");
+                HideMovementCircle();
                 break;
             }
             yield return null;
         }
 
-        HideMovementCircle();
+        
         cancelButtonUI.SetActive(false);
         moveButtonUI.SetActive(true);
         SetCamClose();
@@ -153,13 +155,16 @@ public class Tank : MonoBehaviour
             yield return null;
 
         _isActiveMoveSequence = false;
-        EndTurn();
+        if (!_cancelMove)
+            EndTurn();
+        _cancelMove = false;
         yield break;
     }
 
     /* Called from Cancel UI button. Cancels execution of DoMove coroutine */
-    public void _CancelMove()
+    public void CancelMove()
     {
+        Debug.Log("Cancel move OUTER");
         _cancelMove = true;
     }
 
