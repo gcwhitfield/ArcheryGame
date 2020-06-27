@@ -104,12 +104,13 @@ MonoBehaviour:
   nozzlePivotPoint: {fileID: 6521551425430386619}
   cancelButton: {fileID: 5248342492002612730}
   moveButton: {fileID: 7712454847679767497}
+  projectileInstantiationPosition: {fileID: 4566224171959793680}
   health: 100
   tankMoveSpeed: 4.19
   angle: 0
   moveRange: 7.29
-  shootPower: 0
-  bomb: {fileID: 0}
+  shootPower: 8.18
+  bomb: {fileID: 3572828311061484131, guid: 04d3fc8a8d5b94e468cf3f9f1c56fa69, type: 3}
   shootSound: {fileID: 0}
   bomSound: {fileID: 0}
   angleChangeSound: {fileID: 0}
@@ -399,7 +400,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 790618862278120450}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8295602459104550764}
+        m_MethodName: Fire
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3806349069695529811

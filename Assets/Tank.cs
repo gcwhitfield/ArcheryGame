@@ -165,9 +165,11 @@ public class Tank : MonoBehaviour
         GameObject proj = Instantiate(bomb,projectileInstantiationPosition.transform.position, projectileInstantiationPosition.transform.rotation);
 
         // add appropriate force proportional to power
-        Vector3 direction = (nozzle.transform.position - projectileInstantiationPosition.transform.position).normalized;
+        Vector3 direction = (projectileInstantiationPosition.transform.position - nozzle.transform.position).normalized;
         float _shootPower = 2;
-        proj.GetComponent<Rigidbody>().AddForce(direction * _shootPower * shootPower, ForceMode.Force);
+        Debug.Log("shoot force:" +  direction * _shootPower * shootPower);
+        Debug.Log("direction: " + direction);
+        proj.GetComponent<Rigidbody>().AddForce(direction * _shootPower * shootPower, ForceMode.Impulse);
 
         // play the sound
         AudioManager.Instance.PlaySoundEffect(shootSound);
