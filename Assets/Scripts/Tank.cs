@@ -196,7 +196,7 @@ public class Tank : MonoBehaviour
         pitch = angle;
         nozzle.transform.position = nozzlePulledBack.transform.position;
         nozzle.transform.rotation = nozzlePulledBack.transform.rotation;
-        nozzle.transform.RotateAround(nozzlePivotPoint.transform.position, nozzlePivotPoint.transform.forward.normalized, angle);
+        nozzle.transform.RotateAround(nozzlePivotPoint.transform.position, nozzlePivotPoint.transform.right.normalized, angle);
     }
 
     // changes the yaw of the arm by "amt" degrees
@@ -205,8 +205,6 @@ public class Tank : MonoBehaviour
         yaw = angle;
         nozzleGroup.transform.rotation = Quaternion.identity;
         nozzleGroup.transform.Rotate(new Vector3(0, angle, 0), Space.Self);
-        
-        
     }
 
 
