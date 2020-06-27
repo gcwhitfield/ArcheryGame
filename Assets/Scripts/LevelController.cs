@@ -12,8 +12,6 @@ public class LevelController : Singleton<LevelController>
     // varaible will be accessed by WinScene to display the winner
     public winCondition currWinState = winCondition.NONE;
     public GameObject camera;
-    [Header("User Interface")]
-    public GameObject HUD;
     public enum playerType
     {
         P1,

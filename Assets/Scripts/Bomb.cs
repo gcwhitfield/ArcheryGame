@@ -19,7 +19,7 @@ public class Bomb : MonoBehaviour
     public float offsetX;
     public float offsetY;
     public float offsetZ;
-    private Camera cam;
+    private Camera _cam;
     
 
     void OnTriggerEnter(Collider other)
@@ -33,7 +33,7 @@ public class Bomb : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cam = Camera.main;
+        _cam = Camera.main;
         StartCoroutine("CameraFollow");
     }
 
@@ -77,12 +77,12 @@ public class Bomb : MonoBehaviour
     IEnumerator CameraFollow()
     {
         Debug.Log("CameraFollow");
-        if (cam == null) cam = Camera.main;
+        if (_cam == null) _cam = Camera.main;
         while (true) // run until object destroyed
         {
             Vector3 desiredPosition = gameObject.transform.position + new Vector3(offsetX, offsetY, offsetZ);
-            cam.transform.LookAt(gameObject.transform);
-            cam.transform.position = Vector3.Slerp(cam.transform.position, desiredPosition, delay);
+            _cam.transform.LookAt(gameObject.transform);
+            _cam.transform.position = Vector3.Slerp(_cam.transform.position, desiredPosition, delay);
             yield return null;
         }
     }

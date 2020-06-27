@@ -20,6 +20,7 @@ public class Tank : MonoBehaviour
 
     [Header("Health Settings")]
     public int health;
+    private float _maxHealth = 100;
 
     [Header("Movement & Projectile Settings")]
     public float tankMoveSpeed;
@@ -27,25 +28,25 @@ public class Tank : MonoBehaviour
     public float angle;
     public float moveRange;
     public float shootPower;
-    private bool cancelMove;
+    private bool _cancelMove;
     public GameObject bomb;
 
     [Header("Sounds")]
     public AudioClip shootSound;
     public AudioClip bomSound;
     public AudioClip angleChangeSound;
-    private bool isMoving;
+    private bool _isMoving;
 
-    private bool isActiveMoveSequence;
-    private GameObject currCam;
+    private bool _isActiveMoveSequence;
+    private GameObject _currCam;
     [SerializeField]
-    private float tankHeight;
+    private float _tankHeight;
 
     void Start()
     {
-        currCam = Camera.main.gameObject;
-        cancelMove = false;
-        isActiveMoveSequence = false;
+        _currCam = Camera.main.gameObject;
+        _cancelMove = false;
+        _isActiveMoveSequence = false;
     }
     // called when the tank has no health
     void Die()
@@ -66,13 +67,14 @@ public class Tank : MonoBehaviour
     public void Damage(int amt)
     {
         health -= amt;
+        UIManager.Instance.UpdateHealth(ptype, health/_maxHealth);
         if (health <= 0)
             Die();
     }
 
     public void DoMoveWrapper()
     {
-        if (!isActiveMoveSequence)
+        if (!_isActiveMoveSequence)
         {
             StartCoroutine("DoMove");
         }
@@ -84,7 +86,7 @@ public class Tank : MonoBehaviour
 
     IEnumerator DoMove()
     {
-        isActiveMoveSequence = true;
+        _isActiveMoveSequence = true;
         // display the move cancel button
 
         // for moving camera to the far away location
@@ -101,14 +103,14 @@ public class Tank : MonoBehaviour
         camParamsReturn.rotation = closePos.rotation; 
 
         /* wait for user to input desired location
-           user can cancel move by calling CancelMove fuction while this 
+           user can cancel move by calling _CancelMove fuction while this 
            loop is running
         */
         Ray ray;
         RaycastHit hit;
         while (true)
         {
-            ray = currCam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+            ray = _currCam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
             Debug.DrawRay(ray.origin, ray.direction * 122, Color.yellow);
             if (Physics.Raycast(ray.origin, ray.direction, out hit, 100))
             {
@@ -118,9 +120,9 @@ public class Tank : MonoBehaviour
                     if (Vector3.Distance(gameObject.transform.position, hit.point) <= moveRange)
                     {
                         // move the tank to the location
-                        StartCoroutine("Move", hit.point + new Vector3(0, tankHeight, 0));
+                        StartCoroutine("Move", hit.point + new Vector3(0, _tankHeight, 0));
                         // wait for the tank to move
-                        while (isMoving)
+                        while (_isMoving)
                             yield return null;
                         break;
                     }
@@ -128,7 +130,7 @@ public class Tank : MonoBehaviour
                     Debug.DrawLine(ray.origin, hit.point);
                 }
             }
-            if (cancelMove)
+            if (_cancelMove)
             {
                 break;
             }
@@ -137,14 +139,14 @@ public class Tank : MonoBehaviour
         cancelButton.SetActive(false);
         moveButton.SetActive(true);
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsReturn);
-        isActiveMoveSequence = false;
+        _isActiveMoveSequence = false;
         yield break;
     }
 
     /* Called from Cancel UI button */
-    public void CancelMove()
+    public void _CancelMove()
     {
-        cancelMove = true;
+        _cancelMove = true;
     }
 
     /* SetPower called from power slider in UI */
@@ -194,7 +196,7 @@ public class Tank : MonoBehaviour
             gameObject.transform.position = Vector3.Slerp(startPos, pos, fracComplete);
             yield return null;
         }
-        isMoving = false;
+        _isMoving = false;
         yield return null;
     }
 
