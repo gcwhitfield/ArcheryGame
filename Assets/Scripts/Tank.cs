@@ -17,14 +17,15 @@ public class Tank : MonoBehaviour
     public LevelController.playerType ptype; // P1 or P2
     // where the camera looks at the tank from
     [Header("UI and Location References")]
-    public Transform closePos;
-    public Transform farPos;
-    public GameObject tankUI;
+    public Transform closePos; // cam position
+    public Transform farPos; // cam position 
     public GameObject nozzlePulledBack;
-    public GameObject nozzle;
+    public GameObject nozzle; // just the nozzle
     public GameObject nozzlePivotPoint;
-    public GameObject cancelButton;
-    public GameObject moveButton;
+    public GameObject nozzleGroup; // contains nozzle and top part of tank
+    public GameObject tankUI;
+    public GameObject cancelButtonUI;
+    public GameObject moveButtonUI;
     public GameObject projectileInstantiationPosition;
 
     [Header("Health Settings")]
@@ -146,8 +147,8 @@ public class Tank : MonoBehaviour
             }
             yield return null;
         }
-        cancelButton.SetActive(false);
-        moveButton.SetActive(true);
+        cancelButtonUI.SetActive(false);
+        moveButtonUI.SetActive(true);
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsReturn);
         yield return new WaitForSeconds(0.1f);
        
@@ -196,6 +197,12 @@ public class Tank : MonoBehaviour
         nozzle.transform.RotateAround(nozzlePivotPoint.transform.position, nozzlePivotPoint.transform.right.normalized, angle);
     }
 
+    // changes the rotation of the arm by "amt" degrees
+    public void ChangeRotation(float angle)
+    {
+        nozzleGroup.transform.rotation = Quaternion.identity;
+        nozzleGroup.transform.Rotate(new Vector3(0, angle, 0), Space.Self);
+    }
 
 
     protected Vector3 moveTo;
