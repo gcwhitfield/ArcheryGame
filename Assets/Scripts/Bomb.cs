@@ -21,6 +21,7 @@ public class Bomb : MonoBehaviour
     public float offsetY;
     public float offsetZ;
     private SmartCamera _smartCam;
+    private Vector3 camFollowOffset;
     
 
     void OnTriggerEnter(Collider other)
@@ -35,6 +36,10 @@ public class Bomb : MonoBehaviour
     void Start()
     {
         _smartCam = Camera.main.GetComponent<SmartCamera>();
+        camFollowOffset = 
+            (transform.forward * offsetZ) + 
+            (transform.right * offsetX) + 
+            (transform.up * offsetY);
     }
 
     /* Play explode efect, apply force to nearby tanks, end turn */
@@ -84,7 +89,7 @@ public class Bomb : MonoBehaviour
              _smartCam = Camera.main.GetComponent<SmartCamera>();
         }
         
-        Vector3 desiredPosition = gameObject.transform.position + new Vector3(offsetX, offsetY, offsetZ);
+        Vector3 desiredPosition = gameObject.transform.position + camFollowOffset;
         _smartCam.LookAt(gameObject.transform.position);
         _smartCam.SetPosition(Vector3.Slerp(_smartCam.transform.position, desiredPosition, cameraFollowDelay));
     }

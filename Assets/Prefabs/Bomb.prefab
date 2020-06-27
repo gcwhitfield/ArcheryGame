@@ -132,6 +132,6 @@ MonoBehaviour:
   damageAmt: 10
   cameraFollowDelay: 0.276
   followSpeed: 0
-  offsetX: 0
-  offsetY: 11.23
-  offsetZ: 16.35
+  offsetX: -38.7
+  offsetY: 0
+  offsetZ: -20

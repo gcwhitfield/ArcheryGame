@@ -7,10 +7,62 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3141283728298842694, guid: f6fc6d9ac53b04498ba40773141121cc,
+    - target: {fileID: 3141283727248340666, guid: f6fc6d9ac53b04498ba40773141121cc,
         type: 3}
-      propertyPath: m_Name
-      value: Power Slider
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141283727248340666, guid: f6fc6d9ac53b04498ba40773141121cc,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141283727248340666, guid: f6fc6d9ac53b04498ba40773141121cc,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141283727266805556, guid: f6fc6d9ac53b04498ba40773141121cc,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141283727266805556, guid: f6fc6d9ac53b04498ba40773141121cc,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141283727274857088, guid: f6fc6d9ac53b04498ba40773141121cc,
+        type: 3}
+      propertyPath: m_Text
+      value: '0
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141283727274857089, guid: f6fc6d9ac53b04498ba40773141121cc,
+        type: 3}
+      propertyPath: showDecimals
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141283727383795687, guid: f6fc6d9ac53b04498ba40773141121cc,
+        type: 3}
+      propertyPath: m_MaxValue
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141283727383795687, guid: f6fc6d9ac53b04498ba40773141121cc,
+        type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141283727383795687, guid: f6fc6d9ac53b04498ba40773141121cc,
+        type: 3}
+      propertyPath: m_WholeNumbers
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3141283727737878068, guid: f6fc6d9ac53b04498ba40773141121cc,
+        type: 3}
+      propertyPath: m_Text
+      value: Power
       objectReference: {fileID: 0}
     - target: {fileID: 3141283728298842693, guid: f6fc6d9ac53b04498ba40773141121cc,
         type: 3}
@@ -117,22 +169,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3141283727737878068, guid: f6fc6d9ac53b04498ba40773141121cc,
+    - target: {fileID: 3141283728298842694, guid: f6fc6d9ac53b04498ba40773141121cc,
         type: 3}
-      propertyPath: m_Text
-      value: Power
-      objectReference: {fileID: 0}
-    - target: {fileID: 3141283727274857088, guid: f6fc6d9ac53b04498ba40773141121cc,
-        type: 3}
-      propertyPath: m_Text
-      value: '0
-
-'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3141283727274857089, guid: f6fc6d9ac53b04498ba40773141121cc,
-        type: 3}
-      propertyPath: showDecimals
-      value: 0
+      propertyPath: m_Name
+      value: Power Slider
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6fc6d9ac53b04498ba40773141121cc, type: 3}
