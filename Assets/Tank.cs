@@ -63,7 +63,7 @@ public class Tank : MonoBehaviour
     }
 
     // subtract health from the tank.
-    void Damage(int amt)
+    public void Damage(int amt)
     {
         health -= amt;
         if (health <= 0)

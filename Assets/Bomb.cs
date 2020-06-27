@@ -9,6 +9,7 @@ public class Bomb : MonoBehaviour
     public GameObject explodeEffect;
     public float explodeRadius;
     public float explodeStrength;
+    public int damageAmt;
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Tank" || other.gameObject.isStatic)
@@ -32,15 +33,17 @@ public class Bomb : MonoBehaviour
         // create effect, apply force to nearby tanks
         if (explodeEffect != null)
             Instantiate(explodeEffect, gameObject.transform.position, gameObject.transform.rotation);
-        RaycastHit hit;
-        if (Physics.SphereCast(gameObject.transform.position, explodeRadius, Vector3.zero, out hit, 0.1f))
+        Collider [] objs = Physics.OverlapSphere(gameObject.transform.position, explodeRadius);
+        foreach (Collider c in objs)
         {
-            if (hit.collider.gameObject.tag == "Tank")
+            if (c.gameObject.tag == "Tank")
             {
-                Vector3 dist = gameObject.transform.position - hit.collider.gameObject.transform.position;
+                // force
+                Vector3 dist = gameObject.transform.position - c.gameObject.transform.position;
                 Vector3 force = (dist.normalized / explodeRadius) * explodeStrength;
-                
-                hit.rigidbody.AddForce(force, ForceMode.Force);
+                c.gameObject.GetComponent<Rigidbody>().AddForce(force, ForceMode.Force);
+                // damage
+                c.gameObject.GetComponent<Tank>().Damage(Mathf.FloorToInt(damageAmt * force.magnitude));
             }
         }
 
