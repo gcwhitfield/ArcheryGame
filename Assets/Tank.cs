@@ -16,6 +16,7 @@ public class Tank : MonoBehaviour
     public GameObject nozzlePivotPoint;
     public GameObject cancelButton;
     public GameObject moveButton;
+    public GameObject projectileInstantiationPosition;
 
     [Header("Health Settings")]
     public int health;
@@ -78,7 +79,7 @@ public class Tank : MonoBehaviour
         }
     }
 
-    /* The "Do" methods are the ones that get called when we click on 
+    /* The "Do" method gets called when we click on 
     a button on the UI. For example, when the user clicks on the "move" button,
     the "DoMove" method gets called */
 
@@ -151,12 +152,26 @@ public class Tank : MonoBehaviour
         cancelMove = true;
     }
 
-
-    void DoPower()
+    /* SetPower called from power slider in UI */
+    public void SetPower()
     {
 
     }
 
+    /* Called from the "Fire" button on the UI */
+    public void Fire()
+    {
+        // instantiate projectile
+        GameObject proj = Instantiate(bomb,projectileInstantiationPosition.transform.position, projectileInstantiationPosition.transform.rotation);
+
+        // add appropriate force proportional to power
+        Vector3 direction = (nozzle.transform.position - projectileInstantiationPosition.transform.position).normalized;
+        float _shootPower = 2;
+        proj.GetComponent<Rigidbody>().AddForce(direction * _shootPower * shootPower, ForceMode.Force);
+
+        // play the sound
+        AudioManager.Instance.PlaySoundEffect(shootSound);
+    }
 
     // changes the angle of the arm by "amt" degrees
     public void ChangeAngle(float angle)
@@ -225,7 +240,6 @@ public class Tank : MonoBehaviour
         // dispay the turn UI
         tankUI.SetActive(true);
     }
-
     void EndTurn()
     {
         // remove UI
