@@ -9,6 +9,10 @@ public class Tank : MonoBehaviour
     public Transform farPos;
     public LevelController.playerType ptype; // P1 or P2
     public GameObject tankUI;
+    public GameObject nozzlePulledBack;
+    public GameObject nozzle;
+    public GameObject nozzlePivotPoint;
+
     public float tankMoveSpeed;
     public int health;
     // angle of the arm
@@ -133,10 +137,6 @@ public class Tank : MonoBehaviour
         cancelMove = true;
     }
 
-    void DoAngle()
-    {
-
-    }
 
     void DoPower()
     {
@@ -145,11 +145,11 @@ public class Tank : MonoBehaviour
 
 
     // changes the angle of the arm by "amt" degrees
-    void ChangeAngle(float amt)
+    public void ChangeAngle(float angle)
     {
-        float animationDuration = 1; // in seconds
-
-       // smoothly lerp between original and new angle
+        nozzle.transform.position = nozzlePulledBack.transform.position;
+        nozzle.transform.rotation = nozzlePulledBack.transform.rotation;
+        nozzle.transform.RotateAround(nozzlePivotPoint.transform.position, nozzlePivotPoint.transform.right.normalized, angle);
     }
 
 
