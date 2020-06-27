@@ -11,7 +11,7 @@ public class LevelController : Singleton<LevelController>
     public playerType currentTurn;
     // varaible will be accessed by WinScene to display the winner
     public winCondition currWinState = winCondition.NONE;
-    public GameObject camera;
+    public GameObject cam;
     public enum playerType
     {
         P1,
@@ -27,7 +27,7 @@ public class LevelController : Singleton<LevelController>
     }
     void Awake()
     {
-        camera = Camera.main.gameObject;
+        cam = Camera.main.gameObject;
     }
 
     void Start()
@@ -100,23 +100,21 @@ public class LevelController : Singleton<LevelController>
     public IEnumerator MoveCamera(CameraMoveParams camParams)
     {
         float start = Time.time;
-        if (camera == null)
+        if (cam == null)
         {
-            Debug.Log("CAMERA IS NULL");
-            Debug.Log(Camera.main);
+            cam = Camera.main.gameObject;
         } 
-        Vector3 startPos = camera.transform.position;
-        Quaternion startRot = camera.transform.rotation;
+        Vector3 startPos = cam.transform.position;
+        Quaternion startRot = cam.transform.rotation;
         float fracComplete = 0;
         while (fracComplete < 1)
         {
             // slerp between the positions
             fracComplete = ((Time.time - start) * camParams.speed) / Vector3.Distance(startPos, camParams.destination);
-            camera.transform.position = Vector3.Slerp(startPos, camParams.destination, fracComplete);
-            camera.transform.rotation = Quaternion.Slerp(startRot, camParams.rotation, fracComplete);
+            cam.transform.position = Vector3.Slerp(startPos, camParams.destination, fracComplete);
+            cam.transform.rotation = Quaternion.Slerp(startRot, camParams.rotation, fracComplete);
             yield return null;
         }
-        Debug.Log("exit moveCamera");
         yield break;
     }
 }

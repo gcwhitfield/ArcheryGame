@@ -51,7 +51,6 @@ public class Bomb : MonoBehaviour
         Collider [] objs = Physics.OverlapSphere(gameObject.transform.position, explodeRadius);
         foreach (Collider c in objs)
         {
-            Debug.Log(c);
             if (c.gameObject.tag == "Tank")
             {
                 // force
@@ -76,7 +75,6 @@ public class Bomb : MonoBehaviour
     /* Camera follow */
     IEnumerator CameraFollow()
     {
-        Debug.Log("CameraFollow");
         if (_cam == null) _cam = Camera.main;
         while (true) // run until object destroyed
         {
