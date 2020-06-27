@@ -35,7 +35,8 @@ public class Tank : MonoBehaviour
     [Header("Movement & Projectile Settings")]
     public float tankMoveSpeed;
     // angle of the arm
-    public float angle;
+    public float pitch;
+    public float yaw;
     public float moveRange;
     public float shootPower;
     private bool _cancelMove;
@@ -192,16 +193,20 @@ public class Tank : MonoBehaviour
     // changes the pitch of the arm by "amt" degrees
     public void ChangePitch(float angle)
     {
+        pitch = angle;
         nozzle.transform.position = nozzlePulledBack.transform.position;
         nozzle.transform.rotation = nozzlePulledBack.transform.rotation;
-        nozzle.transform.RotateAround(nozzlePivotPoint.transform.position, nozzlePivotPoint.transform.right.normalized, angle);
+        nozzle.transform.RotateAround(nozzlePivotPoint.transform.position, nozzlePivotPoint.transform.forward.normalized, angle);
     }
 
     // changes the yaw of the arm by "amt" degrees
     public void ChangeYaw(float angle)
     {
+        yaw = angle;
         nozzleGroup.transform.rotation = Quaternion.identity;
         nozzleGroup.transform.Rotate(new Vector3(0, angle, 0), Space.Self);
+        
+        
     }
 
 
