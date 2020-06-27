@@ -99,20 +99,8 @@ public class Tank : MonoBehaviour
     {
         LevelController.Instance.smartCam.EndOverride();
         _isActiveMoveSequence = true;
-        // display the move cancel button
 
-        // for moving camera to the far away location
-        LevelController.CameraMoveParams camParamsFar = new LevelController.CameraMoveParams();
-        camParamsFar.speed = 160;
-        camParamsFar.destination = farPos.transform.position;
-        camParamsFar.rotation = farPos.transform.rotation;
-        LevelController.Instance.StartCoroutine("MoveCamera", camParamsFar);
-
-        // for moving the camera back
-        LevelController.CameraMoveParams camParamsReturn = new LevelController.CameraMoveParams();
-        camParamsReturn.speed = 160;
-        camParamsReturn.destination = closePos.position;
-        camParamsReturn.rotation = closePos.rotation; 
+        SetCamFar();
 
         /* wait for user to input desired location
            user can cancel move by calling _CancelMove fuction while this 
@@ -150,7 +138,7 @@ public class Tank : MonoBehaviour
         }
         cancelButtonUI.SetActive(false);
         moveButtonUI.SetActive(true);
-        LevelController.Instance.StartCoroutine("MoveCamera", camParamsReturn);
+        SetCamClose();
         yield return new WaitForSeconds(0.1f);
        
         // wait for camera to finish moving
@@ -208,7 +196,27 @@ public class Tank : MonoBehaviour
         nozzleGroup.transform.Rotate(new Vector3(0, angle, 0), Space.Self);
     }
 
+    /* Sets the position of the camera to Close */
+    public void SetCamClose()
+    {
+        LevelController.Instance.smartCam.EndOverride();
+        LevelController.CameraMoveParams camParamsClose = new LevelController.CameraMoveParams();
+        camParamsClose.speed = 160;
+        camParamsClose.destination = closePos.position;
+        camParamsClose.rotation = closePos.rotation; 
+        LevelController.Instance.StartCoroutine("MoveCamera", camParamsClose);
+    }
 
+    /* Sets the positon of the camera to Far  */
+    public void SetCamFar()
+    {
+        LevelController.Instance.smartCam.EndOverride();
+        LevelController.CameraMoveParams camParamsFar = new LevelController.CameraMoveParams();
+        camParamsFar.speed = 160;
+        camParamsFar.destination = farPos.transform.position;
+        camParamsFar.rotation = farPos.transform.rotation;
+        LevelController.Instance.StartCoroutine("MoveCamera", camParamsFar);
+    }
     protected Vector3 moveTo;
     // moves the tank to the given position
     IEnumerator Move(Vector3 pos)
