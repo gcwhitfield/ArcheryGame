@@ -2404,7 +2404,7 @@ MonoBehaviour:
   shootSound: {fileID: 0}
   bomSound: {fileID: 0}
   angleChangeSound: {fileID: 0}
-  _tankHeight: 0
+  _tankHeight: 0.68
 --- !u!65 &6567763722924777691
 BoxCollider:
   m_ObjectHideFlags: 0

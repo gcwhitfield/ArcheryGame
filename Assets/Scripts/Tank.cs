@@ -34,6 +34,7 @@ public class Tank : MonoBehaviour
     private float _maxHealth = 100;
 
     [Header("Movement & Projectile Settings")]
+    private float _tankHeight;
     public float tankMoveSpeed;
     // angle of the arm
     public float pitch;
@@ -51,7 +52,6 @@ public class Tank : MonoBehaviour
 
     private bool _isActiveMoveSequence;
     [SerializeField]
-    private float _tankHeight;
 
     void Start()
     {
