@@ -136,3 +136,4 @@ MonoBehaviour:
   down: 113
   moveSpeed: 30.29
   rotationSpeed: 10.92
+  overrideMoveSmoothAmt: 0.79

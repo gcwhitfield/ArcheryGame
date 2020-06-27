@@ -16,7 +16,8 @@ public class SmartCamera : MonoBehaviour
     public KeyCode down;
     public float moveSpeed;
     public float rotationSpeed;
-
+    [Range(0,1)]
+    public float overrideMoveSmoothAmt;
     private bool bforward;
     private bool bleft;
     private bool bright;
@@ -98,19 +99,19 @@ public class SmartCamera : MonoBehaviour
             // movement
             if (bforward)
             {
-                moveVec += gameObject.transform.forward;
+                moveVec -= gameObject.transform.forward;
             }
             if (bleft)
             {
-                moveVec -= gameObject.transform.right;
+                moveVec += gameObject.transform.right;
             }
             if (bright)
             {
-                moveVec += gameObject.transform.right;
+                moveVec -= gameObject.transform.right;
             }
             if (bback)
             {
-                moveVec -= gameObject.transform.forward;
+                moveVec += gameObject.transform.forward;
             }
             if (bup)
             {
@@ -120,8 +121,10 @@ public class SmartCamera : MonoBehaviour
             {
                 moveVec -= gameObject.transform.up;
             }
-
-            gameObject.transform.Translate(moveVec * moveSpeed * Time.deltaTime, Space.Self);
+            // smoothly move the camera
+            gameObject.transform.Translate(
+                Vector3.Slerp(Vector3.zero, moveVec * moveSpeed * Time.deltaTime, overrideMoveSmoothAmt),
+                Space.Self);
            
             // rotation
             if (Input.GetMouseButton(1)) // right click to rotate camera
