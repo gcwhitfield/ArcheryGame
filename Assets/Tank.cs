@@ -4,22 +4,37 @@ using UnityEngine;
 
 public class Tank : MonoBehaviour
 {
+    [Header("General")]
+    public LevelController.playerType ptype; // P1 or P2
     // where the camera looks at the tank from
+    [Header("UI and Location References")]
     public Transform closePos;
     public Transform farPos;
-    public LevelController.playerType ptype; // P1 or P2
     public GameObject tankUI;
     public GameObject nozzlePulledBack;
     public GameObject nozzle;
     public GameObject nozzlePivotPoint;
+    public GameObject cancelButton;
+    public GameObject moveButton;
 
-    public float tankMoveSpeed;
+    [Header("Health Settings")]
     public int health;
+
+    [Header("Movement & Projectile Settings")]
+    public float tankMoveSpeed;
     // angle of the arm
     public float angle;
     public float moveRange;
+    public float shootPower;
     private bool cancelMove;
+    public GameObject bomb;
+
+    [Header("Sounds")]
+    public AudioClip shootSound;
+    public AudioClip bomSound;
+    public AudioClip angleChangeSound;
     private bool isMoving;
+
     private bool isActiveMoveSequence;
     private GameObject currCam;
     [SerializeField]
@@ -73,12 +88,18 @@ public class Tank : MonoBehaviour
         Debug.Log("being Do Move");
         // display the move cancel button
 
-        // move camera to the far away location
+        // for moving camera to the far away location
         LevelController.CameraMoveParams camParamsFar = new LevelController.CameraMoveParams();
         camParamsFar.speed = 50;
         camParamsFar.destination = farPos.transform.position;
         camParamsFar.rotation = farPos.transform.rotation;
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsFar);
+
+        // for moving the camera back
+        LevelController.CameraMoveParams camParamsReturn = new LevelController.CameraMoveParams();
+        camParamsReturn.speed = 50;
+        camParamsReturn.destination = closePos.position;
+        camParamsReturn.rotation = closePos.rotation; 
 
         /* wait for user to input desired location
            user can cancel move by calling CancelMove fuction while this 
@@ -101,6 +122,9 @@ public class Tank : MonoBehaviour
                         Debug.Log("valid move location. moving...");
                         // move the tank to the location
                         StartCoroutine("Move", hit.point + new Vector3(0, tankHeight, 0));
+                        // wait for the tank to move
+                        while (isMoving)
+                            yield return null;
                         break;
                     }
                 } else {
@@ -109,30 +133,20 @@ public class Tank : MonoBehaviour
             }
             if (cancelMove)
             {
-                cancelMove = false;
-                yield break;
+                break;
             }
             yield return null;
         }
-        
-        // wait for the tank to move
-        while (isMoving)
-            yield return null;
-
+        cancelButton.SetActive(false);
+        moveButton.SetActive(true);
         Debug.Log("finish moving");
-
-        // move the camera back
-        LevelController.CameraMoveParams camParamsReturn = new LevelController.CameraMoveParams();
-        camParamsReturn.speed = 50;
-        camParamsReturn.destination = closePos.position;
-        camParamsReturn.rotation = closePos.rotation; 
-
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsReturn);
         isActiveMoveSequence = false;
         yield break;
     }
 
-    void CancelMove()
+    /* Called from Cancel UI button */
+    public void CancelMove()
     {
         cancelMove = true;
     }
