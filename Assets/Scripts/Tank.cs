@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+
+    1) Moving tanks
+    2) Changing tank angle and rotation
+    3) Changing power
+    4) Shooting projectiles
+
+*/
 public class Tank : MonoBehaviour
 {
     [Header("General")]
@@ -66,6 +75,7 @@ public class Tank : MonoBehaviour
     // subtract health from the tank.
     public void Damage(int amt)
     {
+        Debug.Log("damage");
         health -= amt;
         UIManager.Instance.UpdateHealth(ptype, health/_maxHealth);
         if (health <= 0)
@@ -139,11 +149,18 @@ public class Tank : MonoBehaviour
         cancelButton.SetActive(false);
         moveButton.SetActive(true);
         LevelController.Instance.StartCoroutine("MoveCamera", camParamsReturn);
+        yield return new WaitForSeconds(0.1f);
+       
+        // wait for camera to finish moving
+        while (LevelController.Instance.camIsMoving)
+            yield return null;
+
         _isActiveMoveSequence = false;
+        EndTurn();
         yield break;
     }
 
-    /* Called from Cancel UI button */
+    /* Called from Cancel UI button. Cancels execution of DoMove coroutine */
     public void _CancelMove()
     {
         _cancelMove = true;
@@ -198,17 +215,6 @@ public class Tank : MonoBehaviour
         }
         _isMoving = false;
         yield return null;
-    }
-
-    /* 
-        Sets the camera position back to default
-        Sets the UI back to default
-    */
-    void ResetPlayerState()
-    {
-        Camera.main.transform.position = farPos.position;
-        Camera.main.transform.rotation = farPos.rotation;
-
     }
 
     /*

@@ -12,6 +12,7 @@ public class LevelController : Singleton<LevelController>
     // varaible will be accessed by WinScene to display the winner
     public winCondition currWinState = winCondition.NONE;
     public GameObject cam;
+    public bool camIsMoving;
     public enum playerType
     {
         P1,
@@ -32,7 +33,8 @@ public class LevelController : Singleton<LevelController>
 
     void Start()
     {
-        BeginTurn(playerType.P1);
+        camIsMoving = false;
+        BeginTurn(currentTurn);
     }
 
     /* called at the start of every player's turn. This function is called by 
@@ -99,6 +101,7 @@ public class LevelController : Singleton<LevelController>
      */
     public IEnumerator MoveCamera(CameraMoveParams camParams)
     {
+        camIsMoving = true;
         float start = Time.time;
         if (cam == null)
         {
@@ -115,6 +118,7 @@ public class LevelController : Singleton<LevelController>
             cam.transform.rotation = Quaternion.Slerp(startRot, camParams.rotation, fracComplete);
             yield return null;
         }
+        camIsMoving = false;
         yield break;
     }
 }

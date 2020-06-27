@@ -11,6 +11,7 @@ public class UIManager : Singleton<UIManager>
 
     public void UpdateHealth(LevelController.playerType player, float health)
     {
+        Debug.Log("UIMANAGER: " + player.ToString() +" "+ health.ToString());
         switch(player)
         {
             case LevelController.playerType.P1:

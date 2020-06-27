@@ -26,7 +26,7 @@ public class Bomb : MonoBehaviour
     {
         if (other.gameObject.tag == "Tank" || other.gameObject.isStatic)
         {
-            StartCoroutine("Explode");
+            StartCoroutine("Explode"); // damage applied in explode
         }
     }
     
@@ -59,6 +59,7 @@ public class Bomb : MonoBehaviour
                 c.gameObject.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
                 // damage
                 c.gameObject.GetComponent<Tank>().Damage(Mathf.FloorToInt(damageAmt * force.magnitude));
+                Debug.Log("Here is the damage amt: " + damageAmt * force.magnitude);
             }
         }
 

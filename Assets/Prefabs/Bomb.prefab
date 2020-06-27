@@ -124,9 +124,10 @@ MonoBehaviour:
   explodeSound: {fileID: 0}
   explodeEffect: {fileID: 392836454192154744, guid: 6478874d1cb954f3eaefe5feedfa6839,
     type: 3}
+  tank: {fileID: 0}
   explodeRadius: 11.67
   explodeStrength: 14.46
-  damageAmt: 0
+  damageAmt: 10
   delay: 0.3
   followSpeed: 0
   offsetX: 0
