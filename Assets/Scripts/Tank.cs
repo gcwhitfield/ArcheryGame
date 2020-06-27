@@ -234,9 +234,10 @@ public class Tank : MonoBehaviour
         // dispay the turn UI
         tankUI.SetActive(true);
     }
-    void EndTurn()
+    public void EndTurn()
     {
         // remove UI
         tankUI.SetActive(false);
+        LevelController.Instance.SwitchTurn();
     }
 }

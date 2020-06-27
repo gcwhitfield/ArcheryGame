@@ -8,6 +8,7 @@ public class Bomb : MonoBehaviour
     [Header("Explosion")]
     public AudioClip explodeSound;
     public GameObject explodeEffect;
+    public GameObject tank; // the tank that this bomb was shot from
     public float explodeRadius;
     public float explodeStrength;
     public int damageAmt;
@@ -36,6 +37,7 @@ public class Bomb : MonoBehaviour
         StartCoroutine("CameraFollow");
     }
 
+    /* Play explode efect, apply force to nearby tanks, end turn */
     IEnumerator Explode()
     {
         // play sound effeect
@@ -59,6 +61,9 @@ public class Bomb : MonoBehaviour
                 c.gameObject.GetComponent<Tank>().Damage(Mathf.FloorToInt(damageAmt * force.magnitude));
             }
         }
+
+        // end turn
+        tank.GetComponent<Tank>().EndTurn();
 
         Destroy(gameObject);
         yield break;

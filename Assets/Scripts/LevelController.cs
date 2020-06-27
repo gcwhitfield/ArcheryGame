@@ -7,7 +7,7 @@ public class LevelController : Singleton<LevelController>
 {
     public GameObject P1; // player 1
     public GameObject P2; // player 2
-
+    public playerType currentTurn;
     // varaible will be accessed by WinScene to display the winner
     public winCondition currWinState = winCondition.NONE;
     public GameObject camera;
@@ -43,8 +43,11 @@ public class LevelController : Singleton<LevelController>
         {
             case playerType.P1:
                 P1.GetComponent<Tank>().StartTurn();
+                currentTurn = playerType.P1;
                 break;
             case playerType.P2:
+                P2.GetComponent<Tank>().StartTurn();
+                currentTurn = playerType.P2;
                 break;  
         }
     }
@@ -66,7 +69,19 @@ public class LevelController : Singleton<LevelController>
         // display the win scene
     }
 
-
+    /* End P1's turn and begin P2's turn (or vice versa) */
+    public void SwitchTurn()
+    {
+        switch(currentTurn)
+        {
+            case playerType.P1:
+                BeginTurn(playerType.P2);
+                break;
+            case playerType.P2:
+                BeginTurn(playerType.P1);
+                break;
+        }
+    }
 
     public class CameraMoveParams
     {
