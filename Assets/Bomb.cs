@@ -36,12 +36,13 @@ public class Bomb : MonoBehaviour
         Collider [] objs = Physics.OverlapSphere(gameObject.transform.position, explodeRadius);
         foreach (Collider c in objs)
         {
+            Debug.Log(c);
             if (c.gameObject.tag == "Tank")
             {
                 // force
-                Vector3 dist = gameObject.transform.position - c.gameObject.transform.position;
+                Vector3 dist = c.gameObject.transform.position - gameObject.transform.position ;
                 Vector3 force = (dist.normalized / explodeRadius) * explodeStrength;
-                c.gameObject.GetComponent<Rigidbody>().AddForce(force, ForceMode.Force);
+                c.gameObject.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
                 // damage
                 c.gameObject.GetComponent<Tank>().Damage(Mathf.FloorToInt(damageAmt * force.magnitude));
             }

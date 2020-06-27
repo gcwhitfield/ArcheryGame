@@ -125,4 +125,5 @@ MonoBehaviour:
   explodeEffect: {fileID: 392836454192154744, guid: 6478874d1cb954f3eaefe5feedfa6839,
     type: 3}
   explodeRadius: 11.67
-  explodeStrength: 9.07
+  explodeStrength: 14.46
+  damageAmt: 0
