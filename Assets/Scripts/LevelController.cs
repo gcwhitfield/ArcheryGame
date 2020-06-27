@@ -12,7 +12,7 @@ public class LevelController : Singleton<LevelController>
     // varaible will be accessed by WinScene to display the winner
     public winCondition currWinState = winCondition.NONE;
     [Header("Camera")]
-    public GameObject cam;
+    public SmartCamera smartCam;
     public bool camIsMoving;
     public float waitTimeInBetweenTurnSwitch;
     public enum playerType
@@ -30,7 +30,7 @@ public class LevelController : Singleton<LevelController>
     }
     void Awake()
     {
-        cam = Camera.main.gameObject;
+        smartCam = Camera.main.gameObject.GetComponent<SmartCamera>();
     }
 
     void Start()
@@ -112,13 +112,12 @@ public class LevelController : Singleton<LevelController>
     {
         camIsMoving = true;
         float start = Time.time;
-        if (cam == null)
+        if (smartCam == null)
         {
-            cam = Camera.main.gameObject;
+            smartCam = Camera.main.gameObject.GetComponent<SmartCamera>();
         }
-        SmartCamera smartCam = cam.GetComponent<SmartCamera>();
-        Vector3 startPos = cam.transform.position;
-        Quaternion startRot = cam.transform.rotation;
+        Vector3 startPos = smartCam.transform.position;
+        Quaternion startRot = smartCam.transform.rotation;
         float fracComplete = 0;
         while (fracComplete < 1)
         {
@@ -127,7 +126,7 @@ public class LevelController : Singleton<LevelController>
             smartCam.SetPR(
                 Vector3.Slerp(startPos, camParams.destination, fracComplete),
                 Quaternion.Slerp(startRot, camParams.rotation, fracComplete));
-                
+
             yield return null;
         }
         camIsMoving = false;

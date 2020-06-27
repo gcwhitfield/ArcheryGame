@@ -50,13 +50,11 @@ public class Tank : MonoBehaviour
     private bool _isMoving;
 
     private bool _isActiveMoveSequence;
-    private GameObject _currCam;
     [SerializeField]
     private float _tankHeight;
 
     void Start()
     {
-        _currCam = Camera.main.gameObject;
         _cancelMove = false;
         _isActiveMoveSequence = false;
     }
@@ -99,6 +97,7 @@ public class Tank : MonoBehaviour
 
     IEnumerator DoMove()
     {
+        LevelController.Instance.smartCam.EndOverride();
         _isActiveMoveSequence = true;
         // display the move cancel button
 
@@ -123,7 +122,7 @@ public class Tank : MonoBehaviour
         RaycastHit hit;
         while (true)
         {
-            ray = _currCam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+            ray = LevelController.Instance.smartCam.gameObject.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
             Debug.DrawRay(ray.origin, ray.direction * 122, Color.yellow);
             if (Physics.Raycast(ray.origin, ray.direction, out hit, 100))
             {
@@ -178,6 +177,7 @@ public class Tank : MonoBehaviour
     /* Called from the "Fire" button on the UI */
     public void Fire()
     {
+        LevelController.Instance.smartCam.EndOverride();
         // instantiate projectile
         GameObject proj = Instantiate(bomb,projectileInstantiationPosition.transform.position, projectileInstantiationPosition.transform.rotation);
         proj.GetComponent<Bomb>().tank = gameObject;

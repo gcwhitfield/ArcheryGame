@@ -17,6 +17,14 @@ public class SmartCamera : MonoBehaviour
     public float moveSpeed;
     public float rotationSpeed;
 
+    private bool bforward;
+    private bool bleft;
+    private bool bright;
+    private bool bback;
+    private bool bup;
+    private bool bdown;
+    
+
     /* Sets the position and rotation of the camera (unless manual override) */
     public void SetPR(Vector3 position, Quaternion rotation)
     {
@@ -67,33 +75,48 @@ public class SmartCamera : MonoBehaviour
     }
 
 
+    /* Begin camera movement override if the player presses any of the movement keys
+        Rotate the camera while the user holds down right click.
+     */
     void Update()
     {
+        bforward = Input.GetKey(forward);
+        bleft = Input.GetKey(left);
+        bright = Input.GetKey(right);
+        bup = Input.GetKey(up);
+        bdown = Input.GetKey(down);
+        bback = Input.GetKey(back);
+
+        if (bforward || bleft || bright || bup || bdown || bback)
+        {
+            BeginOverride();
+        }
+
         if (CONTROL_OVERRIDE)
         {
             Vector3 moveVec = Vector3.zero;
             // movement
-            if (Input.GetKey(forward))
+            if (bforward)
             {
                 moveVec += gameObject.transform.forward;
             }
-            if (Input.GetKey(left))
+            if (bleft)
             {
                 moveVec -= gameObject.transform.right;
             }
-            if (Input.GetKey(right))
+            if (bright)
             {
                 moveVec += gameObject.transform.right;
             }
-            if (Input.GetKey(back))
+            if (bback)
             {
                 moveVec -= gameObject.transform.forward;
             }
-            if (Input.GetKey(up))
+            if (bup)
             {
                 moveVec += gameObject.transform.up;
             }
-            if (Input.GetKey(down))
+            if (bdown)
             {
                 moveVec -= gameObject.transform.up;
             }
@@ -101,17 +124,25 @@ public class SmartCamera : MonoBehaviour
             gameObject.transform.Translate(moveVec * moveSpeed * Time.deltaTime, Space.Self);
            
             // rotation
-            float mouseX = Input.GetAxis("Mouse X");
-            float mouseY = Input.GetAxis("Mouse Y");
-            Vector3 rotVec = Vector3.zero;
-            if (mouseX > 0)
+            if (Input.GetMouseButton(1)) // right click to rotate camera
             {
-                rotVec += new Vector3(0, mouseX * rotationSpeed * Time.deltaTime, 0);
+                Cursor.lockState = CursorLockMode.Locked;
+                float mouseX = Input.GetAxis("Mouse X");
+                float mouseY = Input.GetAxis("Mouse Y");
+                Vector3 rotVec = Vector3.zero;
+                if (mouseX > 0)
+                {
+                    rotVec += new Vector3(0, mouseX * rotationSpeed * Time.deltaTime, 0);
+                }
+                if (mouseY > 0)
+                {
+                    rotVec += new Vector3(mouseX * rotationSpeed * Time.deltaTime, 0, 0);
+                }
+            } else {
+                Cursor.lockState = CursorLockMode.None;
             }
-            if (mouseY > 0)
-            {
-                rotVec += new Vector3(mouseX * rotationSpeed * Time.deltaTime, 0, 0);
-            }
+        } else {
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }

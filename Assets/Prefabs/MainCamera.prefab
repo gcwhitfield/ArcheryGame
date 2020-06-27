@@ -134,5 +134,5 @@ MonoBehaviour:
   back: 115
   up: 101
   down: 113
-  moveSpeed: 10
-  rotationSpeed: 3
+  moveSpeed: 30.29
+  rotationSpeed: 10.92
