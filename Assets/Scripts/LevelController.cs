@@ -115,7 +115,8 @@ public class LevelController : Singleton<LevelController>
         if (cam == null)
         {
             cam = Camera.main.gameObject;
-        } 
+        }
+        SmartCamera smartCam = cam.GetComponent<SmartCamera>();
         Vector3 startPos = cam.transform.position;
         Quaternion startRot = cam.transform.rotation;
         float fracComplete = 0;
@@ -123,8 +124,10 @@ public class LevelController : Singleton<LevelController>
         {
             // slerp between the positions
             fracComplete = ((Time.time - start) * camParams.speed) / Vector3.Distance(startPos, camParams.destination);
-            cam.transform.position = Vector3.Slerp(startPos, camParams.destination, fracComplete);
-            cam.transform.rotation = Quaternion.Slerp(startRot, camParams.rotation, fracComplete);
+            smartCam.SetPR(
+                Vector3.Slerp(startPos, camParams.destination, fracComplete),
+                Quaternion.Slerp(startRot, camParams.rotation, fracComplete));
+                
             yield return null;
         }
         camIsMoving = false;

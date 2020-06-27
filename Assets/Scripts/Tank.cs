@@ -20,6 +20,7 @@ public class Tank : MonoBehaviour
     public Transform closePos; // cam position
     public Transform farPos; // cam position 
     public GameObject nozzlePulledBack;
+    public GameObject nozzleGroupOriginalRotation;
     public GameObject nozzle; // just the nozzle
     public GameObject nozzlePivotPoint;
     public GameObject nozzleGroup; // contains nozzle and top part of tank
@@ -183,7 +184,7 @@ public class Tank : MonoBehaviour
 
         // add appropriate force proportional to power
         Vector3 direction = (projectileInstantiationPosition.transform.position - nozzle.transform.position).normalized;
-        float _power = 2;
+        float _power = 0.2f;
         proj.GetComponent<Rigidbody>().AddForce(direction * _power * power, ForceMode.Impulse);
 
         // play the sound
@@ -203,7 +204,7 @@ public class Tank : MonoBehaviour
     public void ChangeYaw(float angle)
     {
         yaw = angle;
-        nozzleGroup.transform.rotation = Quaternion.identity;
+        nozzleGroup.transform.rotation = nozzleGroupOriginalRotation.transform.rotation;
         nozzleGroup.transform.Rotate(new Vector3(0, angle, 0), Space.Self);
     }
 
