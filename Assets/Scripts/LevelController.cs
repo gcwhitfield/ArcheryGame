@@ -5,12 +5,15 @@ using UnityEngine;
 // singelton that controls what happens during the main gameplay loop
 public class LevelController : Singleton<LevelController>
 {
+    [Header("Core")]
     public GameObject P1; // player 1
     public GameObject P2; // player 2
     public playerType currentTurn;
     // varaible will be accessed by WinScene to display the winner
     public winCondition currWinState = winCondition.NONE;
     public GameObject camera;
+    [Header("User Interface")]
+    public GameObject HUD;
     public enum playerType
     {
         P1,
@@ -75,9 +78,11 @@ public class LevelController : Singleton<LevelController>
         switch(currentTurn)
         {
             case playerType.P1:
+            Debug.Log("Switching turn from P1 to P2");
                 BeginTurn(playerType.P2);
                 break;
             case playerType.P2:
+                Debug.Log("Switching turn from P2 to P1");
                 BeginTurn(playerType.P1);
                 break;
         }

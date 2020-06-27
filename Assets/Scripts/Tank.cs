@@ -158,6 +158,7 @@ public class Tank : MonoBehaviour
     {
         // instantiate projectile
         GameObject proj = Instantiate(bomb,projectileInstantiationPosition.transform.position, projectileInstantiationPosition.transform.rotation);
+        proj.GetComponent<Bomb>().tank = gameObject;
 
         // add appropriate force proportional to power
         Vector3 direction = (projectileInstantiationPosition.transform.position - nozzle.transform.position).normalized;

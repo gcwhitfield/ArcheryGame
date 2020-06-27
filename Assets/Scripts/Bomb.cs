@@ -47,6 +47,7 @@ public class Bomb : MonoBehaviour
         // create effect, apply force to nearby tanks
         if (explodeEffect != null)
             Instantiate(explodeEffect, gameObject.transform.position, gameObject.transform.rotation);
+        
         Collider [] objs = Physics.OverlapSphere(gameObject.transform.position, explodeRadius);
         foreach (Collider c in objs)
         {
@@ -62,6 +63,7 @@ public class Bomb : MonoBehaviour
             }
         }
 
+        Debug.Log("Ending turn...");
         // end turn
         tank.GetComponent<Tank>().EndTurn();
 
@@ -78,7 +80,7 @@ public class Bomb : MonoBehaviour
         if (cam == null) cam = Camera.main;
         while (true) // run until object destroyed
         {
-            Vector3 desiredPosition = gameObject.transform.position. + new Vector3(offsetX, offsetY, offsetZ);
+            Vector3 desiredPosition = gameObject.transform.position + new Vector3(offsetX, offsetY, offsetZ);
             cam.transform.LookAt(gameObject.transform);
             cam.transform.position = Vector3.Slerp(cam.transform.position, desiredPosition, delay);
             yield return null;
