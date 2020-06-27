@@ -97,7 +97,6 @@ public class Tank : MonoBehaviour
 
     IEnumerator DoMove()
     {
-        LevelController.Instance.smartCam.EndOverride();
         _isActiveMoveSequence = true;
 
         SetCamFar();

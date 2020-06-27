@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGlobal: 0
+  isGlobal: 1
   priority: 0
   blendDistance: 0
   weight: 1
@@ -1070,7 +1070,7 @@ MonoBehaviour:
   P2: {fileID: 162184199}
   currentTurn: 1
   currWinState: 3
-  cam: {fileID: 0}
+  smartCam: {fileID: 0}
   camIsMoving: 0
   waitTimeInBetweenTurnSwitch: 2.89
 --- !u!4 &2040827688
@@ -1475,6 +1475,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5788578603955134318, guid: 9476f7fa9c1d748aa8ac1b87b1d95c2a,
+        type: 3}
+      propertyPath: m_CameraType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5788578603955134318, guid: 9476f7fa9c1d748aa8ac1b87b1d95c2a,
+        type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8337517361386199097, guid: 9476f7fa9c1d748aa8ac1b87b1d95c2a,
         type: 3}
       propertyPath: m_LocalPosition.x

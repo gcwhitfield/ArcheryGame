@@ -83,6 +83,7 @@ public class LevelController : Singleton<LevelController>
     IEnumerator _SwitchTurn()
     {
         yield return new WaitForSeconds(waitTimeInBetweenTurnSwitch);
+        smartCam.EndOverride();
         switch(currentTurn)
         {
             case playerType.P1:
