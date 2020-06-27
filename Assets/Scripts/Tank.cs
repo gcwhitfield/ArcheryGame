@@ -136,11 +136,12 @@ public class Tank : MonoBehaviour
             }
             if (_cancelMove)
             {
+                Debug.Log("cancel move");
                 break;
             }
             yield return null;
         }
-        
+
         HideMovementCircle();
         cancelButtonUI.SetActive(false);
         moveButtonUI.SetActive(true);
@@ -170,11 +171,11 @@ public class Tank : MonoBehaviour
         circleLR.positionCount = numPoints + 1;
         for (int i = 0; i < numPoints + 1; i ++)
         {
-            float angle = (i / numPoints) * 2 * Mathf.PI;
+            float angle = (i * 2 * Mathf.PI) / numPoints;
             float offsetX = Mathf.Sin(angle) * moveRange;
             float offsetZ = Mathf.Cos(angle) * moveRange;
-            Vector3 vertPosition = new Vector3 (offsetX, _tankHeight, offsetZ);
-            circleLR.SetPosition(i, vertPosition);
+            Vector3 vertPosOffset = new Vector3 (offsetX, _tankHeight, offsetZ);
+            circleLR.SetPosition(i, vertPosOffset + gameObject.transform.position);
         }
     }
 

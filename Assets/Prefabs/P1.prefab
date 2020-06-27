@@ -2530,6 +2530,9 @@ MonoBehaviour:
   moveRange: 7.29
   power: 50
   bomb: {fileID: 3572828311061484131, guid: 04d3fc8a8d5b94e468cf3f9f1c56fa69, type: 3}
+  circleLR: {fileID: 8293209711981838040}
+  moveValid: {fileID: 2100000, guid: 158284f374dc74c98a88a636a10db101, type: 2}
+  moveInvalid: {fileID: 2100000, guid: a4ffeebc3acce4f82bf3418024652989, type: 2}
   shootSound: {fileID: 0}
   bomSound: {fileID: 0}
   angleChangeSound: {fileID: 0}
