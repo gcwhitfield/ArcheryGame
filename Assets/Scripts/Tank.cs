@@ -43,6 +43,9 @@ public class Tank : MonoBehaviour
     public float power;
     private bool _cancelMove;
     public GameObject bomb;
+    public LineRenderer circleLR;
+    public Material moveValid;
+    public Material moveInvalid;
 
     [Header("Sounds")]
     public AudioClip shootSound;
@@ -99,6 +102,7 @@ public class Tank : MonoBehaviour
     {
         _isActiveMoveSequence = true;
 
+        CalculateMovementCircle();
         SetCamFar();
 
         /* wait for user to input desired location
@@ -113,10 +117,11 @@ public class Tank : MonoBehaviour
             Debug.DrawRay(ray.origin, ray.direction * 122, Color.yellow);
             if (Physics.Raycast(ray.origin, ray.direction, out hit, 100))
             {
-                if (Input.GetMouseButtonDown(0)) // left click
+                // if the click is valid move location
+                if (Vector3.Distance(gameObject.transform.position, hit.point) <= moveRange)
                 {
-                    // if the click is valid move location
-                    if (Vector3.Distance(gameObject.transform.position, hit.point) <= moveRange)
+                    ShowMovementCircle(true);
+                    if (Input.GetMouseButtonDown(0)) // left click
                     {
                         // move the tank to the location
                         StartCoroutine("Move", hit.point + new Vector3(0, _tankHeight, 0));
@@ -125,8 +130,8 @@ public class Tank : MonoBehaviour
                             yield return null;
                         break;
                     }
-                } else {
-                    Debug.DrawLine(ray.origin, hit.point);
+                } else { // invalid location
+                    ShowMovementCircle(false);
                 }
             }
             if (_cancelMove)
@@ -135,10 +140,12 @@ public class Tank : MonoBehaviour
             }
             yield return null;
         }
+        
+        HideMovementCircle();
         cancelButtonUI.SetActive(false);
         moveButtonUI.SetActive(true);
         SetCamClose();
-        yield return new WaitForSeconds(0.1f);
+        yield return null;
        
         // wait for camera to finish moving
         while (LevelController.Instance.camIsMoving)
@@ -154,6 +161,42 @@ public class Tank : MonoBehaviour
     {
         _cancelMove = true;
     }
+
+    /* Sets vertex positions of circle movement line renderer */
+    void CalculateMovementCircle()
+    {
+        int numPoints = 30;
+
+        circleLR.positionCount = numPoints + 1;
+        for (int i = 0; i < numPoints + 1; i ++)
+        {
+            float angle = (i / numPoints) * 2 * Mathf.PI;
+            float offsetX = Mathf.Sin(angle) * moveRange;
+            float offsetZ = Mathf.Cos(angle) * moveRange;
+            Vector3 vertPosition = new Vector3 (offsetX, _tankHeight, offsetZ);
+            circleLR.SetPosition(i, vertPosition);
+        }
+    }
+
+    /* Created a circle around the tank showing where movement can happen.
+    Displays valid movement circle if isValid is true, invalid circle if false
+    */
+    void ShowMovementCircle(bool isValid)
+    {
+        if (isValid)
+        {
+            circleLR.material = moveValid;
+        } else {
+            circleLR.material = moveInvalid;
+        }
+        circleLR.gameObject.SetActive(true);
+    }
+
+    void HideMovementCircle()
+    {
+        circleLR.gameObject.SetActive(false);
+    }
+
 
     /* SetPower called from power slider in UI */
     public void SetPower(float newPower)
@@ -261,6 +304,7 @@ public class Tank : MonoBehaviour
         // dispay the turn UI
         tankUI.SetActive(true);
     }
+
     public void EndTurn()
     {
         // remove UI
