@@ -189,16 +189,16 @@ public class Tank : MonoBehaviour
         AudioManager.Instance.PlaySoundEffect(shootSound);
     }
 
-    // changes the angle of the arm by "amt" degrees
-    public void ChangeAngle(float angle)
+    // changes the pitch of the arm by "amt" degrees
+    public void ChangePitch(float angle)
     {
         nozzle.transform.position = nozzlePulledBack.transform.position;
         nozzle.transform.rotation = nozzlePulledBack.transform.rotation;
         nozzle.transform.RotateAround(nozzlePivotPoint.transform.position, nozzlePivotPoint.transform.right.normalized, angle);
     }
 
-    // changes the rotation of the arm by "amt" degrees
-    public void ChangeRotation(float angle)
+    // changes the yaw of the arm by "amt" degrees
+    public void ChangeYaw(float angle)
     {
         nozzleGroup.transform.rotation = Quaternion.identity;
         nozzleGroup.transform.Rotate(new Vector3(0, angle, 0), Space.Self);
