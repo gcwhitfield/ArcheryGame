@@ -228,7 +228,7 @@ public class Tank : MonoBehaviour
 
         // add appropriate force proportional to power
         Vector3 direction = (projectileInstantiationPosition.transform.position - nozzle.transform.position).normalized;
-        float _power = 0.6f;
+        float _power = 1f;
         proj.GetComponent<Rigidbody>().AddForce(direction * _power * power, ForceMode.Impulse);
 
         // play the sound

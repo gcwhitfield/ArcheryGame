@@ -9,6 +9,7 @@ public class LevelController : UnitySingleton<LevelController>
     public GameObject P1; // player 1
     public GameObject P2; // player 2
     public playerType currentTurn;
+    public AudioClip turnSwitchClip;
     // varaible will be accessed by WinScene to display the winner
     public winCondition currWinState = winCondition.NONE;
     [Header("Camera")]
@@ -85,6 +86,7 @@ public class LevelController : UnitySingleton<LevelController>
     IEnumerator _SwitchTurn()
     {
         yield return new WaitForSeconds(waitTimeInBetweenTurnSwitch);
+        AudioManager.Instance.PlaySoundEffect(turnSwitchClip);
         smartCam.EndOverride();
         switch(currentTurn)
         {

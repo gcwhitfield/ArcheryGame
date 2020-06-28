@@ -81,6 +81,8 @@ public class SmartCamera : MonoBehaviour
      */
     void Update()
     {
+
+        /*
         bforward = Input.GetKey(forward);
         bleft = Input.GetKey(left);
         bright = Input.GetKey(right);
@@ -92,8 +94,6 @@ public class SmartCamera : MonoBehaviour
         {
             BeginOverride();
         }
-
-        /*
         if (CONTROL_OVERRIDE)
         {
             Vector3 moveVec = Vector3.zero;
