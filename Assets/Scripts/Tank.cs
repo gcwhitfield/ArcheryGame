@@ -273,7 +273,6 @@ public class Tank : MonoBehaviour
     IEnumerator Move(Vector3 pos)
     {
         float start = Time.time;
-        gameObject.GetComponent<Rigidbody>().isKinematic = false;
         float fracComplete = 0;
         AudioManager.Instance.effectsSource.loop = true;
         AudioManager.Instance.PlaySoundEffect(moveSound);
@@ -286,7 +285,6 @@ public class Tank : MonoBehaviour
             gameObject.transform.position = Vector3.Lerp(startPos, pos, fracComplete);
             yield return null;
         }
-        gameObject.GetComponent<Rigidbody>().isKinematic = true;
         _isMoving = false;
         AudioManager.Instance.StopSoundEffect();
         AudioManager.Instance.effectsSource.loop = false;
