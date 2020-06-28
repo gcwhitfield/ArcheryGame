@@ -38,7 +38,7 @@ public class Tank : MonoBehaviour
     
     [Header("Movement and Projectile Settings")]
     public float tankMoveSpeed;
-    private float _tankHeight;
+    private float _tankHeight = 1.5f;
     // angle of the arm
     public float pitch;
     public float yaw;
@@ -63,7 +63,7 @@ public class Tank : MonoBehaviour
     {
         _cancelMove = false;
         _isActiveMoveSequence = false;
-        ChangePitch(pitchSlider.GetComponent<Slider>().value);
+        // ChangePitch(pitchSlider.GetComponent<Slider>().value);
     }
     // called when the tank has no health
     void Die()

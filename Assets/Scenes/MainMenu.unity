@@ -355,10 +355,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1592345569}
+  - {fileID: 1912999577}
   - {fileID: 1595190173}
   - {fileID: 8287687806640894851}
   - {fileID: 8332013048057401385}
-  - {fileID: 1912999577}
   - {fileID: 2013807582}
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -1056,7 +1056,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 365047008}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 6.742, y: -19.142, z: -2.3330002}
 --- !u!114 &1595190174
 MonoBehaviour:
@@ -1100,6 +1100,7 @@ GameObject:
   - component: {fileID: 1912999577}
   - component: {fileID: 1912999576}
   - component: {fileID: 1912999575}
+  - component: {fileID: 1912999578}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -1117,7 +1118,7 @@ TerrainCollider:
   m_Material: {fileID: 0}
   m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: 4f5ff829ac3a643caa0e78b4a0570579, type: 2}
-  m_EnableTreeColliders: 1
+  m_EnableTreeColliders: 0
 --- !u!218 &1912999576
 Terrain:
   m_ObjectHideFlags: 0
@@ -1163,8 +1164,22 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 365047008}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &1912999578
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912999574}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &2013807580
 GameObject:
   m_ObjectHideFlags: 0
@@ -4278,7 +4293,7 @@ Transform:
   - {fileID: 461349752037660807}
   - {fileID: 8859372243812403646}
   m_Father: {fileID: 365047008}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -4.1720004}
 --- !u!120 &8293209712345225657
 LineRenderer:
@@ -4391,7 +4406,7 @@ Transform:
   - {fileID: 487939866561116973}
   - {fileID: 8813642891553401364}
   m_Father: {fileID: 365047008}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: -141.759, z: 0}
 --- !u!120 &8337833986699246099
 LineRenderer:

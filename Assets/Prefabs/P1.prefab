@@ -2585,7 +2585,7 @@ MonoBehaviour:
   moveButtonUI: {fileID: 6275302912669571438}
   projectileInstantiationPosition: {fileID: 5963168783867448900}
   mainHUD: {fileID: 2024753086284511183}
-  pitchSlider: {fileID: 134531504039585055}
+  pitchSlider: {fileID: 134531504687179966}
   health: 100
   tankMoveSpeed: 4.19
   pitch: 45
@@ -3062,21 +3062,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac0ff1e7f0e604833a21ccdeac4f3b66, type: 3}
---- !u!114 &134531504039585055 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1408249206141380016, guid: ac0ff1e7f0e604833a21ccdeac4f3b66,
-    type: 3}
-  m_PrefabInstance: {fileID: 1321499184551461039}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &134531504687179965 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1408249207526189074, guid: ac0ff1e7f0e604833a21ccdeac4f3b66,
+    type: 3}
+  m_PrefabInstance: {fileID: 1321499184551461039}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &134531504687179966 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1408249207526189073, guid: ac0ff1e7f0e604833a21ccdeac4f3b66,
     type: 3}
   m_PrefabInstance: {fileID: 1321499184551461039}
   m_PrefabAsset: {fileID: 0}
