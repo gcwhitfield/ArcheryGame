@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 // singelton that controls what happens during the main gameplay loop
-public class LevelController : Singleton<LevelController>
+public class LevelController : UnitySingleton<LevelController>
 {
     [Header("Core")]
     public GameObject P1; // player 1
@@ -65,9 +65,11 @@ public class LevelController : Singleton<LevelController>
         {
             case winCondition.P1_WIN:
                 Debug.Log("PLayer 1 has won!");
+                SceneTransition.Instance.LoadScene("P1 Win");
                 break;
             case (winCondition.P2_WIN):
                 Debug.Log("Player 2 has won!");
+                SceneTransition.Instance.LoadScene("P2 Win");
                 break;
         }
 

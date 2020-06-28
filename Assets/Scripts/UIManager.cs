@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : Singleton<UIManager>
+public class UIManager : UnitySingleton<UIManager>
 {
     [Header("User Interface")]
     public GameObject HUD;

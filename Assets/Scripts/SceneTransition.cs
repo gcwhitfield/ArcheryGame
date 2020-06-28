@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class SceneTransition : Singleton<SceneTransition>
+public class SceneTransition : UnitySingleton<SceneTransition>
 {
     [Header("Scene Transition")]
     public GameObject transitionScreen;

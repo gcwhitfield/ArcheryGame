@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class AudioManager : Singleton<AudioManager>
+public class AudioManager : UnitySingleton<AudioManager>
 {
     public AudioSource effectsSource;
     public void PlaySoundEffect(AudioClip clip)

@@ -129,7 +129,7 @@ MonoBehaviour:
   tank: {fileID: 0}
   explodeRadius: 30
   explodeStrength: 16.7
-  damageAmt: 10
+  damageAmt: 1979
   cameraFollowDelay: 0.276
   followSpeed: 0
   offsetX: -25.9
