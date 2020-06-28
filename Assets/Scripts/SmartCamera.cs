@@ -133,14 +133,15 @@ public class SmartCamera : MonoBehaviour
                 float mouseX = Input.GetAxis("Mouse X");
                 float mouseY = Input.GetAxis("Mouse Y");
                 Vector3 rotVec = Vector3.zero;
-                if (mouseX > 0)
+                if (!Mathf.Approximately(mouseX, 0))
                 {
                     rotVec += new Vector3(0, mouseX * rotationSpeed * Time.deltaTime, 0);
                 }
-                if (mouseY > 0)
+                if (!Mathf.Approximately(mouseY, 0))
                 {
                     rotVec += new Vector3(mouseX * rotationSpeed * Time.deltaTime, 0, 0);
                 }
+                gameObject.transform.Rotate(rotVec, Space.Self);
             } else {
                 Cursor.lockState = CursorLockMode.None;
             }

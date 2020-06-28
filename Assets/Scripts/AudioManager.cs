@@ -15,4 +15,9 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
+    public void StopSoundEffect()
+    {
+        effectsSource.Stop();
+    }
+
 }

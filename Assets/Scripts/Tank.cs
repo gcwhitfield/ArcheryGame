@@ -49,7 +49,7 @@ public class Tank : MonoBehaviour
 
     [Header("Sounds")]
     public AudioClip shootSound;
-    public AudioClip bomSound;
+    public AudioClip moveSound;
     public AudioClip angleChangeSound;
     private bool _isMoving;
 
@@ -271,6 +271,8 @@ public class Tank : MonoBehaviour
     {
         float start = Time.time;
         float fracComplete = 0;
+        AudioManager.Instance.effectsSource.loop = true;
+        AudioManager.Instance.PlaySoundEffect(moveSound);
         Vector3 startPos = transform.position;
         gameObject.transform.LookAt(pos);
         while (fracComplete < 1)
@@ -281,6 +283,8 @@ public class Tank : MonoBehaviour
             yield return null;
         }
         _isMoving = false;
+        AudioManager.Instance.StopSoundEffect();
+        AudioManager.Instance.effectsSource.loop = false;
         yield return null;
     }
 

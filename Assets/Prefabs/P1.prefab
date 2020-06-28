@@ -2533,8 +2533,8 @@ MonoBehaviour:
   circleLR: {fileID: 8293209711981838040}
   moveValid: {fileID: 2100000, guid: 158284f374dc74c98a88a636a10db101, type: 2}
   moveInvalid: {fileID: 2100000, guid: a4ffeebc3acce4f82bf3418024652989, type: 2}
-  shootSound: {fileID: 0}
-  bomSound: {fileID: 0}
+  shootSound: {fileID: 8300000, guid: 510cd9a806251477ca57304ad78ada60, type: 3}
+  moveSound: {fileID: 8300000, guid: b7fc2efda51bf45dfb2fd233b8becd1d, type: 3}
   angleChangeSound: {fileID: 0}
 --- !u!65 &6567763722924777691
 BoxCollider:

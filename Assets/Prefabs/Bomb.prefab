@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0746594d6d2b34df3b6266d11dd8bd84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explodeSound: {fileID: 0}
+  explodeSound: {fileID: 8300000, guid: f15aa0ed4a2db46fe91f99925b4a7201, type: 3}
   explodeEffect: {fileID: 392836454192154744, guid: 6478874d1cb954f3eaefe5feedfa6839,
     type: 3}
   tank: {fileID: 0}
