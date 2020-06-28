@@ -93,6 +93,7 @@ public class SmartCamera : MonoBehaviour
             BeginOverride();
         }
 
+        /*
         if (CONTROL_OVERRIDE)
         {
             Vector3 moveVec = Vector3.zero;
@@ -141,6 +142,7 @@ public class SmartCamera : MonoBehaviour
                     rotVec += new Vector3(mouseX * rotationSpeed * Time.deltaTime, 0, 0);
                 }
                 */
+                /*
                 gameObject.transform.Rotate(rotVec, Space.World);
             } else {
                 Cursor.lockState = CursorLockMode.None;
@@ -148,5 +150,7 @@ public class SmartCamera : MonoBehaviour
         } else {
             Cursor.lockState = CursorLockMode.None;
         }
+        */
+        
     }
 }

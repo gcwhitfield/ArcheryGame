@@ -221,6 +221,7 @@ public class Tank : MonoBehaviour
     public void Fire()
     {
         LevelController.Instance.smartCam.EndOverride();
+        tankUI.SetActive(false);
         // instantiate projectile
         GameObject proj = Instantiate(bomb,projectileInstantiationPosition.transform.position, projectileInstantiationPosition.transform.rotation);
         proj.GetComponent<Bomb>().tank = gameObject;
