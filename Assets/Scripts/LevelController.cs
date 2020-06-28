@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 // singelton that controls what happens during the main gameplay loop
 public class LevelController : Singleton<LevelController>
 {
@@ -15,6 +15,8 @@ public class LevelController : Singleton<LevelController>
     public SmartCamera smartCam;
     public bool camIsMoving;
     public float waitTimeInBetweenTurnSwitch;
+    [Header("Scene Transition")]
+    public GameObject transitionScreen;
     public enum playerType
     {
         P1,
@@ -132,5 +134,25 @@ public class LevelController : Singleton<LevelController>
         }
         camIsMoving = false;
         yield break;
+    }
+
+    public void LoadScene(Scene scene)
+    {
+        // play scene transition
+        PlayOutroAnimation();
+
+        SceneManager.LoadScene(scene.ToString());
+    }
+
+
+    public void PlayIntroAnimation()
+    {
+
+    }
+
+    public void PlayOutroAnimation()
+    {
+
+
     }
 }
