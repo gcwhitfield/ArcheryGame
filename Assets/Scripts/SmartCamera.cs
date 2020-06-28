@@ -122,10 +122,8 @@ public class SmartCamera : MonoBehaviour
                 moveVec -= gameObject.transform.up;
             }
             // smoothly move the camera
-            gameObject.transform.Translate(
-                Vector3.Slerp(Vector3.zero, moveVec * moveSpeed * Time.deltaTime, overrideMoveSmoothAmt),
-                Space.Self);
-           
+            gameObject.transform.position = 
+                Vector3.Slerp(gameObject.transform.position, gameObject.transform.position + (moveVec * moveSpeed * Time.deltaTime), overrideMoveSmoothAmt);
             // rotation
             if (Input.GetMouseButton(1)) // right click to rotate camera
             {
@@ -137,11 +135,13 @@ public class SmartCamera : MonoBehaviour
                 {
                     rotVec += new Vector3(0, mouseX * rotationSpeed * Time.deltaTime, 0);
                 }
+                /*
                 if (!Mathf.Approximately(mouseY, 0))
                 {
                     rotVec += new Vector3(mouseX * rotationSpeed * Time.deltaTime, 0, 0);
                 }
-                gameObject.transform.Rotate(rotVec, Space.Self);
+                */
+                gameObject.transform.Rotate(rotVec, Space.World);
             } else {
                 Cursor.lockState = CursorLockMode.None;
             }

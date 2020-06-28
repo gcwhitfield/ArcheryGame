@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Lowpoly
+  m_Name: LowPoly Dark
   m_Shader: {fileID: -6465566751694194690, guid: eef73c1f3193740b3bdf376bb8192607,
     type: 3}
   m_ShaderKeywords: 
@@ -23,6 +23,6 @@ Material:
     m_Floats:
     - Vector1_3BC665A8: 0
     - Vector1_B59C62D: 0
-    - Vector1_E3920ED3: -0.25
+    - Vector1_E3920ED3: 0
     m_Colors:
-    - Color_1A47A267: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 0}
+    - Color_1A47A267: {r: 0.4056604, g: 0.39991993, b: 0.39991993, a: 0}
