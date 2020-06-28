@@ -119,7 +119,7 @@ public class Tank : MonoBehaviour
         {
             ray = LevelController.Instance.smartCam.gameObject.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
             Debug.DrawRay(ray.origin, ray.direction * 122, Color.yellow);
-            if (Physics.Raycast(ray.origin, ray.direction, out hit, 100))
+            if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000))
             {
                 // if the click is valid move location
                 if (Vector3.Distance(gameObject.transform.position, hit.point) <= moveRange)
@@ -127,8 +127,10 @@ public class Tank : MonoBehaviour
                     ShowMovementCircle(true);
                     if (Input.GetMouseButtonDown(0)) // left click
                     {
+                        Debug.Log("OUTER");
                         if (!(tankUI.GetComponent<DetectMouseHover>().isMouseHovering))
                         {
+                            Debug.Log("INNER");
                             // move the tank to the location
                             StartCoroutine("Move", hit.point + new Vector3(0, _tankHeight, 0));
                             HideMovementCircle();
@@ -282,8 +284,10 @@ public class Tank : MonoBehaviour
     {
         float start = Time.time;
         float fracComplete = 0;
-        AudioManager.Instance.effectsSource.loop = true;
-        AudioManager.Instance.PlaySoundEffect(moveSound);
+        AudioManager.Instance.loopingSource.clip = moveSound;
+        AudioManager.Instance.loopingSource.loop = true;
+        AudioManager.Instance.loopingSource.Play();
+
         Vector3 startPos = transform.position;
         gameObject.transform.LookAt(pos);
         while (fracComplete < 1)
@@ -294,8 +298,8 @@ public class Tank : MonoBehaviour
             yield return null;
         }
         _isMoving = false;
-        AudioManager.Instance.StopSoundEffect();
-        AudioManager.Instance.effectsSource.loop = false;
+        AudioManager.Instance.loopingSource.loop = false;
+        AudioManager.Instance.loopingSource.Stop();
         yield return null;
     }
 
