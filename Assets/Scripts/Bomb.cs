@@ -26,7 +26,7 @@ public class Bomb : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Tank" || other.gameObject.isStatic)
+        if (other.gameObject.tag == "Tank" || other.gameObject.tag == "Ground")
         {
             StartCoroutine("Explode"); // damage applied in explode
         }
