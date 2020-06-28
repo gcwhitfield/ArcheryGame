@@ -28,6 +28,7 @@ public class Tank : MonoBehaviour
     public GameObject cancelButtonUI;
     public GameObject moveButtonUI;
     public GameObject projectileInstantiationPosition;
+    public GameObject mainHUD;
 
     [Header("Health Settings")]
     public int health;
@@ -124,13 +125,16 @@ public class Tank : MonoBehaviour
                     ShowMovementCircle(true);
                     if (Input.GetMouseButtonDown(0)) // left click
                     {
-                        // move the tank to the location
-                        StartCoroutine("Move", hit.point + new Vector3(0, _tankHeight, 0));
-                        HideMovementCircle();
-                        // wait for the tank to move
-                        while (_isMoving)
-                            yield return null;
-                        break;
+                        if (!(tankUI.GetComponent<DetectMouseHover>().isMouseHovering))
+                        {
+                            // move the tank to the location
+                            StartCoroutine("Move", hit.point + new Vector3(0, _tankHeight, 0));
+                            HideMovementCircle();
+                            // wait for the tank to move
+                            while (_isMoving)
+                                yield return null;
+                            break;
+                        }
                     }
                 } else { // invalid location
                     ShowMovementCircle(false);
@@ -323,6 +327,7 @@ public class Tank : MonoBehaviour
     {
         // remove UI
         tankUI.SetActive(false);
+        mainHUD.SetActive(true);
         LevelController.Instance.SwitchTurn();
     }
 }
