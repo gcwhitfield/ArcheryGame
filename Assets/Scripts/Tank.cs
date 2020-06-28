@@ -242,6 +242,9 @@ public class Tank : MonoBehaviour
         yaw = angle;
         nozzleGroup.transform.rotation = nozzleGroupOriginalRotation.transform.rotation;
         nozzleGroup.transform.Rotate(new Vector3(0, angle, 0), Space.Self);
+        LevelController.Instance.smartCam.EndOverride();
+        LevelController.Instance.smartCam.SetPR(closePos.transform.position, closePos.transform.rotation);
+
     }
 
     /* Sets the position of the camera to Close */
@@ -270,6 +273,7 @@ public class Tank : MonoBehaviour
     IEnumerator Move(Vector3 pos)
     {
         float start = Time.time;
+        gameObject.GetComponent<Rigidbody>().isKinematic = false;
         float fracComplete = 0;
         AudioManager.Instance.effectsSource.loop = true;
         AudioManager.Instance.PlaySoundEffect(moveSound);
@@ -282,6 +286,7 @@ public class Tank : MonoBehaviour
             gameObject.transform.position = Vector3.Lerp(startPos, pos, fracComplete);
             yield return null;
         }
+        gameObject.GetComponent<Rigidbody>().isKinematic = true;
         _isMoving = false;
         AudioManager.Instance.StopSoundEffect();
         AudioManager.Instance.effectsSource.loop = false;
