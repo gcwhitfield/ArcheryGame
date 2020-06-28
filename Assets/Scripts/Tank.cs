@@ -313,8 +313,6 @@ public class Tank : MonoBehaviour
     public void StartTurn()
     {
         // move the main camera to the tank's camera view location
-        float cameraMoveSpeed = 1;
-
         LevelController.CameraMoveParams camParams = new LevelController.CameraMoveParams();
         camParams.speed = 160;
         camParams.destination = closePos.transform.position;

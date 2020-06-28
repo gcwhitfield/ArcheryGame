@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1677,6 +1677,8 @@ MonoBehaviour:
   cancelButtonUI: {fileID: 0}
   moveButtonUI: {fileID: 0}
   projectileInstantiationPosition: {fileID: 5963168784507808037}
+  mainHUD: {fileID: 0}
+  pitchSlider: {fileID: 0}
   health: 100
   tankMoveSpeed: 4.19
   pitch: 0
@@ -1714,6 +1716,8 @@ MonoBehaviour:
   cancelButtonUI: {fileID: 0}
   moveButtonUI: {fileID: 0}
   projectileInstantiationPosition: {fileID: 5936843772536162959}
+  mainHUD: {fileID: 0}
+  pitchSlider: {fileID: 0}
   health: 100
   tankMoveSpeed: 4.19
   pitch: 0
