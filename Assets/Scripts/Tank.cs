@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 /*
 
@@ -20,6 +20,7 @@ public class Tank : MonoBehaviour
     public Transform closePos; // cam position
     public Transform farPos; // cam position 
     public GameObject nozzlePulledBack;
+    public GameObject nozzleGroupOriginalRotation;
     public GameObject nozzle; // just the nozzle
     public GameObject nozzlePivotPoint;
     public GameObject nozzleGroup; // contains nozzle and top part of tank
@@ -27,13 +28,17 @@ public class Tank : MonoBehaviour
     public GameObject cancelButtonUI;
     public GameObject moveButtonUI;
     public GameObject projectileInstantiationPosition;
+    public GameObject mainHUD;
+    public GameObject pitchSlider;
 
     [Header("Health Settings")]
     public int health;
     private float _maxHealth = 100;
 
-    [Header("Movement & Projectile Settings")]
+    
+    [Header("Movement and Projectile Settings")]
     public float tankMoveSpeed;
+    private float _tankHeight = 1.5f;
     // angle of the arm
     public float pitch;
     public float yaw;
@@ -41,23 +46,24 @@ public class Tank : MonoBehaviour
     public float power;
     private bool _cancelMove;
     public GameObject bomb;
+    public LineRenderer circleLR;
+    public Material moveValid;
+    public Material moveInvalid;
 
     [Header("Sounds")]
     public AudioClip shootSound;
-    public AudioClip bomSound;
+    public AudioClip moveSound;
     public AudioClip angleChangeSound;
     private bool _isMoving;
 
     private bool _isActiveMoveSequence;
-    private GameObject _currCam;
     [SerializeField]
-    private float _tankHeight;
 
     void Start()
     {
-        _currCam = Camera.main.gameObject;
         _cancelMove = false;
         _isActiveMoveSequence = false;
+        // ChangePitch(pitchSlider.GetComponent<Slider>().value);
     }
     // called when the tank has no health
     void Die()
@@ -99,20 +105,9 @@ public class Tank : MonoBehaviour
     IEnumerator DoMove()
     {
         _isActiveMoveSequence = true;
-        // display the move cancel button
 
-        // for moving camera to the far away location
-        LevelController.CameraMoveParams camParamsFar = new LevelController.CameraMoveParams();
-        camParamsFar.speed = 160;
-        camParamsFar.destination = farPos.transform.position;
-        camParamsFar.rotation = farPos.transform.rotation;
-        LevelController.Instance.StartCoroutine("MoveCamera", camParamsFar);
-
-        // for moving the camera back
-        LevelController.CameraMoveParams camParamsReturn = new LevelController.CameraMoveParams();
-        camParamsReturn.speed = 160;
-        camParamsReturn.destination = closePos.position;
-        camParamsReturn.rotation = closePos.rotation; 
+        CalculateMovementCircle();
+        SetCamFar();
 
         /* wait for user to input desired location
            user can cancel move by calling _CancelMove fuction while this 
@@ -122,51 +117,101 @@ public class Tank : MonoBehaviour
         RaycastHit hit;
         while (true)
         {
-            ray = _currCam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+            ray = LevelController.Instance.smartCam.gameObject.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
             Debug.DrawRay(ray.origin, ray.direction * 122, Color.yellow);
-            if (Physics.Raycast(ray.origin, ray.direction, out hit, 100))
+            if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000))
             {
-                if (Input.GetMouseButtonDown(0)) // left click
+                // if the click is valid move location
+                if (Vector3.Distance(gameObject.transform.position, hit.point) <= moveRange)
                 {
-                    // if the click is valid move location
-                    if (Vector3.Distance(gameObject.transform.position, hit.point) <= moveRange)
+                    ShowMovementCircle(true);
+                    if (Input.GetMouseButtonDown(0)) // left click
                     {
-                        // move the tank to the location
-                        StartCoroutine("Move", hit.point + new Vector3(0, _tankHeight, 0));
-                        // wait for the tank to move
-                        while (_isMoving)
-                            yield return null;
-                        break;
+                        Debug.Log("OUTER");
+                        if (!(tankUI.GetComponent<DetectMouseHover>().isMouseHovering))
+                        {
+                            Debug.Log("INNER");
+                            // move the tank to the location
+                            StartCoroutine("Move", hit.point + new Vector3(0, _tankHeight, 0));
+                            HideMovementCircle();
+                            // wait for the tank to move
+                            while (_isMoving)
+                                yield return null;
+                            break;
+                        }
                     }
-                } else {
-                    Debug.DrawLine(ray.origin, hit.point);
+                } else { // invalid location
+                    ShowMovementCircle(false);
                 }
             }
             if (_cancelMove)
             {
+                Debug.Log("cancel move");
+                HideMovementCircle();
                 break;
             }
             yield return null;
         }
+
+        
         cancelButtonUI.SetActive(false);
         moveButtonUI.SetActive(true);
-        LevelController.Instance.StartCoroutine("MoveCamera", camParamsReturn);
-        yield return new WaitForSeconds(0.1f);
+        SetCamClose();
+        yield return null;
        
         // wait for camera to finish moving
         while (LevelController.Instance.camIsMoving)
             yield return null;
 
         _isActiveMoveSequence = false;
-        EndTurn();
+        if (!_cancelMove)
+            EndTurn();
+        _cancelMove = false;
         yield break;
     }
 
     /* Called from Cancel UI button. Cancels execution of DoMove coroutine */
-    public void _CancelMove()
+    public void CancelMove()
     {
+        Debug.Log("Cancel move OUTER");
         _cancelMove = true;
     }
+
+    /* Sets vertex positions of circle movement line renderer */
+    void CalculateMovementCircle()
+    {
+        int numPoints = 30;
+
+        circleLR.positionCount = numPoints + 1;
+        for (int i = 0; i < numPoints + 1; i ++)
+        {
+            float angle = (i * 2 * Mathf.PI) / numPoints;
+            float offsetX = Mathf.Sin(angle) * moveRange;
+            float offsetZ = Mathf.Cos(angle) * moveRange;
+            Vector3 vertPosOffset = new Vector3 (offsetX, _tankHeight, offsetZ);
+            circleLR.SetPosition(i, vertPosOffset + gameObject.transform.position);
+        }
+    }
+
+    /* Created a circle around the tank showing where movement can happen.
+    Displays valid movement circle if isValid is true, invalid circle if false
+    */
+    void ShowMovementCircle(bool isValid)
+    {
+        if (isValid)
+        {
+            circleLR.material = moveValid;
+        } else {
+            circleLR.material = moveInvalid;
+        }
+        circleLR.gameObject.SetActive(true);
+    }
+
+    void HideMovementCircle()
+    {
+        circleLR.gameObject.SetActive(false);
+    }
+
 
     /* SetPower called from power slider in UI */
     public void SetPower(float newPower)
@@ -177,13 +222,15 @@ public class Tank : MonoBehaviour
     /* Called from the "Fire" button on the UI */
     public void Fire()
     {
+        LevelController.Instance.smartCam.EndOverride();
+        tankUI.SetActive(false);
         // instantiate projectile
         GameObject proj = Instantiate(bomb,projectileInstantiationPosition.transform.position, projectileInstantiationPosition.transform.rotation);
         proj.GetComponent<Bomb>().tank = gameObject;
 
         // add appropriate force proportional to power
         Vector3 direction = (projectileInstantiationPosition.transform.position - nozzle.transform.position).normalized;
-        float _power = 2;
+        float _power = 1f;
         proj.GetComponent<Rigidbody>().AddForce(direction * _power * power, ForceMode.Impulse);
 
         // play the sound
@@ -203,27 +250,56 @@ public class Tank : MonoBehaviour
     public void ChangeYaw(float angle)
     {
         yaw = angle;
-        nozzleGroup.transform.rotation = Quaternion.identity;
+        nozzleGroup.transform.rotation = nozzleGroupOriginalRotation.transform.rotation;
         nozzleGroup.transform.Rotate(new Vector3(0, angle, 0), Space.Self);
+        LevelController.Instance.smartCam.EndOverride();
+        LevelController.Instance.smartCam.SetPR(closePos.transform.position, closePos.transform.rotation);
+
     }
 
+    /* Sets the position of the camera to Close */
+    public void SetCamClose()
+    {
+        LevelController.Instance.smartCam.EndOverride();
+        LevelController.CameraMoveParams camParamsClose = new LevelController.CameraMoveParams();
+        camParamsClose.speed = 160;
+        camParamsClose.destination = closePos.position;
+        camParamsClose.rotation = closePos.rotation; 
+        LevelController.Instance.StartCoroutine("MoveCamera", camParamsClose);
+    }
 
+    /* Sets the positon of the camera to Far  */
+    public void SetCamFar()
+    {
+        LevelController.Instance.smartCam.EndOverride();
+        LevelController.CameraMoveParams camParamsFar = new LevelController.CameraMoveParams();
+        camParamsFar.speed = 160;
+        camParamsFar.destination = farPos.transform.position;
+        camParamsFar.rotation = farPos.transform.rotation;
+        LevelController.Instance.StartCoroutine("MoveCamera", camParamsFar);
+    }
     protected Vector3 moveTo;
     // moves the tank to the given position
     IEnumerator Move(Vector3 pos)
     {
         float start = Time.time;
         float fracComplete = 0;
+        AudioManager.Instance.loopingSource.clip = moveSound;
+        AudioManager.Instance.loopingSource.loop = true;
+        AudioManager.Instance.loopingSource.Play();
+
         Vector3 startPos = transform.position;
         gameObject.transform.LookAt(pos);
         while (fracComplete < 1)
         {
             // lerp between the positions
             fracComplete = ((Time.time - start) * tankMoveSpeed) / Vector3.Distance(startPos, pos);
-            gameObject.transform.position = Vector3.Slerp(startPos, pos, fracComplete);
+            gameObject.transform.position = Vector3.Lerp(startPos, pos, fracComplete);
             yield return null;
         }
         _isMoving = false;
+        AudioManager.Instance.loopingSource.loop = false;
+        AudioManager.Instance.loopingSource.Stop();
         yield return null;
     }
 
@@ -242,8 +318,6 @@ public class Tank : MonoBehaviour
     public void StartTurn()
     {
         // move the main camera to the tank's camera view location
-        float cameraMoveSpeed = 1;
-
         LevelController.CameraMoveParams camParams = new LevelController.CameraMoveParams();
         camParams.speed = 160;
         camParams.destination = closePos.transform.position;
@@ -253,10 +327,12 @@ public class Tank : MonoBehaviour
         // dispay the turn UI
         tankUI.SetActive(true);
     }
+
     public void EndTurn()
     {
         // remove UI
         tankUI.SetActive(false);
+        mainHUD.SetActive(true);
         LevelController.Instance.SwitchTurn();
     }
 }

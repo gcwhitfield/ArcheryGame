@@ -20,12 +20,13 @@ public class Bomb : MonoBehaviour
     public float offsetX;
     public float offsetY;
     public float offsetZ;
-    private Camera _cam;
+    private SmartCamera _smartCam;
+    private Vector3 camFollowOffset;
     
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Tank" || other.gameObject.isStatic)
+        if (other.gameObject.tag == "Tank" || other.gameObject.tag == "Ground")
         {
             StartCoroutine("Explode"); // damage applied in explode
         }
@@ -34,7 +35,11 @@ public class Bomb : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _cam = Camera.main;
+        _smartCam = Camera.main.GetComponent<SmartCamera>();
+        camFollowOffset = 
+            (transform.forward * offsetZ) + 
+            (transform.right * offsetX) + 
+            (transform.up * offsetY);
     }
 
     /* Play explode efect, apply force to nearby tanks, end turn */
@@ -79,11 +84,14 @@ public class Bomb : MonoBehaviour
     /* Camera follow */
     void CameraFollow()
     {
-        if (_cam == null) _cam = Camera.main;
-
-        Vector3 desiredPosition = gameObject.transform.position + new Vector3(offsetX, offsetY, offsetZ);
-        _cam.transform.LookAt(gameObject.transform);
-        _cam.transform.position = Vector3.Slerp(_cam.transform.position, desiredPosition, cameraFollowDelay);
+        if (_smartCam == null)
+        {
+             _smartCam = Camera.main.GetComponent<SmartCamera>();
+        }
+        
+        Vector3 desiredPosition = gameObject.transform.position + camFollowOffset;
+        _smartCam.LookAt(gameObject.transform.position);
+        _smartCam.SetPosition(Vector3.Slerp(_smartCam.transform.position, desiredPosition, cameraFollowDelay));
     }
 
 }

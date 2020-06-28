@@ -1,18 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 // singelton that controls what happens during the main gameplay loop
-public class LevelController : Singleton<LevelController>
+public class LevelController : UnitySingleton<LevelController>
 {
     [Header("Core")]
     public GameObject P1; // player 1
     public GameObject P2; // player 2
     public playerType currentTurn;
+    public AudioClip turnSwitchClip;
     // varaible will be accessed by WinScene to display the winner
     public winCondition currWinState = winCondition.NONE;
     [Header("Camera")]
-    public GameObject cam;
+    public SmartCamera smartCam;
     public bool camIsMoving;
     public float waitTimeInBetweenTurnSwitch;
     public enum playerType
@@ -30,7 +31,7 @@ public class LevelController : Singleton<LevelController>
     }
     void Awake()
     {
-        cam = Camera.main.gameObject;
+        smartCam = Camera.main.gameObject.GetComponent<SmartCamera>();
     }
 
     void Start()
@@ -65,9 +66,11 @@ public class LevelController : Singleton<LevelController>
         {
             case winCondition.P1_WIN:
                 Debug.Log("PLayer 1 has won!");
+                SceneTransition.Instance.LoadScene("P1 Win");
                 break;
             case (winCondition.P2_WIN):
                 Debug.Log("Player 2 has won!");
+                SceneTransition.Instance.LoadScene("P2 Win");
                 break;
         }
 
@@ -83,6 +86,8 @@ public class LevelController : Singleton<LevelController>
     IEnumerator _SwitchTurn()
     {
         yield return new WaitForSeconds(waitTimeInBetweenTurnSwitch);
+        AudioManager.Instance.PlaySoundEffect(turnSwitchClip);
+        smartCam.EndOverride();
         switch(currentTurn)
         {
             case playerType.P1:
@@ -112,19 +117,21 @@ public class LevelController : Singleton<LevelController>
     {
         camIsMoving = true;
         float start = Time.time;
-        if (cam == null)
+        if (smartCam == null)
         {
-            cam = Camera.main.gameObject;
-        } 
-        Vector3 startPos = cam.transform.position;
-        Quaternion startRot = cam.transform.rotation;
+            smartCam = Camera.main.gameObject.GetComponent<SmartCamera>();
+        }
+        Vector3 startPos = smartCam.transform.position;
+        Quaternion startRot = smartCam.transform.rotation;
         float fracComplete = 0;
         while (fracComplete < 1)
         {
             // slerp between the positions
             fracComplete = ((Time.time - start) * camParams.speed) / Vector3.Distance(startPos, camParams.destination);
-            cam.transform.position = Vector3.Slerp(startPos, camParams.destination, fracComplete);
-            cam.transform.rotation = Quaternion.Slerp(startRot, camParams.rotation, fracComplete);
+            smartCam.SetPR(
+                Vector3.Slerp(startPos, camParams.destination, fracComplete),
+                Quaternion.Slerp(startRot, camParams.rotation, fracComplete));
+
             yield return null;
         }
         camIsMoving = false;

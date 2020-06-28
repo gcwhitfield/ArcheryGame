@@ -57,6 +57,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -68,6 +69,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -88,10 +90,10 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3572828311061484131}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1.14
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4001764036880449430
 Rigidbody:
@@ -101,8 +103,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3572828311061484131}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
+  m_Mass: 1.5
+  m_Drag: 0.06
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -121,15 +123,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0746594d6d2b34df3b6266d11dd8bd84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explodeSound: {fileID: 0}
+  explodeSound: {fileID: 8300000, guid: b60eee6eccf0244f8bce5675998a83e5, type: 3}
   explodeEffect: {fileID: 392836454192154744, guid: 6478874d1cb954f3eaefe5feedfa6839,
     type: 3}
   tank: {fileID: 0}
-  explodeRadius: 11.67
-  explodeStrength: 14.46
-  damageAmt: 10
+  explodeRadius: 40
+  explodeStrength: 16.7
+  damageAmt: 30
   cameraFollowDelay: 0.276
   followSpeed: 0
-  offsetX: 0
-  offsetY: 11.23
-  offsetZ: 16.35
+  offsetX: -25.9
+  offsetY: 0
+  offsetZ: -19.47
