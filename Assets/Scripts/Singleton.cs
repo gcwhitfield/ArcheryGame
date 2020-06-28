@@ -45,8 +45,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                         m_Instance = singletonObject.AddComponent<T>();
                         singletonObject.name = typeof(T).ToString() + " (Singleton)";
  
-                        // Make instance persistent.
-                        DontDestroyOnLoad(singletonObject);
+                        // DO NOT make instance persistent.
+                        // DontDestroyOnLoad(singletonObject);
                     }
                 }
  
