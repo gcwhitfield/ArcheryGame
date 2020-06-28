@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 /*
 
@@ -29,6 +29,7 @@ public class Tank : MonoBehaviour
     public GameObject moveButtonUI;
     public GameObject projectileInstantiationPosition;
     public GameObject mainHUD;
+    public Slider pitchSlider;
 
     [Header("Health Settings")]
     public int health;
@@ -62,6 +63,7 @@ public class Tank : MonoBehaviour
     {
         _cancelMove = false;
         _isActiveMoveSequence = false;
+        ChangePitch(pitchSlider.value);
     }
     // called when the tank has no health
     void Die()
