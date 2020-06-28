@@ -33,9 +33,10 @@ public class Tank : MonoBehaviour
     public int health;
     private float _maxHealth = 100;
 
-    [Header("Movement & Projectile Settings")]
-    private float _tankHeight;
+    
+    [Header("Movement and Projectile Settings")]
     public float tankMoveSpeed;
+    private float _tankHeight;
     // angle of the arm
     public float pitch;
     public float yaw;
